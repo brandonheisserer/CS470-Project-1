@@ -1,5 +1,8 @@
 package main;
 
+import java.util.Scanner;
+import edu.truman.spicegURLs.node.*;
+
 public class Main {
 
 	public static void main(String[] args) {
@@ -13,14 +16,15 @@ public class Main {
 			if (i == 1) {
 				Listener testListener = new Listener();
 				testListener.createAndListenSocket();
+				break;
 			} else if (i == 2) {
 				Messenger testMessenger = new Messenger();
 				testMessenger.createAndListenSocket();
+				break;
 			}
 
 		}
-		
-		
+		System.out.println("End of main");
 	}
 
 }
