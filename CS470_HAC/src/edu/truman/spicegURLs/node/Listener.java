@@ -30,7 +30,7 @@ public class Listener {
                 System.out.println("Client IP:"+IPAddress.getHostAddress());
                 System.out.println("Client port:"+port);
                 
-                String reply = "Thank you for the message";
+                String reply = "what you really really want";
                 byte[] data = reply.getBytes();
                 
                 DatagramPacket replyPacket =
