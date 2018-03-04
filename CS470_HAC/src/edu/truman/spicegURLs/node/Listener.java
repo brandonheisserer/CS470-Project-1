@@ -2,15 +2,46 @@ package edu.truman.spicegURLs.node;
 
 import java.io.IOException;
 import java.net.*;
+import java.util.ArrayList;
+import java.util.Arrays;
 
-public class Listener {
+public class Listener implements Runnable {
 
 	DatagramSocket socket = null;
-	public Listener () {
-		
+	private PeerList pl;
+	
+	public Listener (PeerList pl) {
+		this.pl = pl;
 	}
+	
+	private void onReceive (String message) {
 
-	public void createAndListenSocket() 
+        ArrayList<String> changes = this.parseChanges(message);
+        
+        for (String change : changes) {
+        	InetAddress peerIP;
+			try {
+				peerIP = InetAddress.getByName(change.substring(1));
+				if (change.startsWith("U")) {
+					pl.addPeer(peerIP);
+				} else if (change.startsWith("D")) {
+					pl.dropPeer(peerIP);
+				} else {
+					System.out.println("Bad change code: " + change);
+				}
+			} catch (UnknownHostException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	private ArrayList<String> parseChanges(String message) {
+		return new ArrayList<String>(Arrays.asList(message.split(";")));
+	}
+	
+	@Override
+	public void run()
     {
         try 
         {
@@ -21,24 +52,20 @@ public class Listener {
             {
                 DatagramPacket incomingPacket = new DatagramPacket(incomingData, 
                 		incomingData.length);
+                
+                // wait here for new data
                 socket.receive(incomingPacket);
+                
                 String message = new String(incomingPacket.getData());
                 InetAddress IPAddress = incomingPacket.getAddress();
                 int port = incomingPacket.getPort();
                 
                 System.out.println("Received message from client: " + message);
-                System.out.println("Client IP:"+IPAddress.getHostAddress());
-                System.out.println("Client port:"+port);
+                System.out.println("Client IP:" + IPAddress.getHostAddress());
+                System.out.println("Client port:" + port);
                 
-                String reply = "what you really really want";
-                byte[] data = reply.getBytes();
                 
-                DatagramPacket replyPacket =
-                        new DatagramPacket(data, data.length, IPAddress, port);
-                
-                socket.send(replyPacket);
-                Thread.sleep(2000);
-                socket.close();
+                this.onReceive(message);
             }
         } 
         catch (SocketException e) 
@@ -48,10 +75,6 @@ public class Listener {
         catch (IOException i) 
         {
             i.printStackTrace();
-        } 
-        catch (InterruptedException e) 
-        {
-            e.printStackTrace();
         }
     }
 }
