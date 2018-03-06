@@ -30,7 +30,7 @@ public class PeerList {
 		}
 		if (!upList.contains(peerIP)) {
 			upList.add(peerIP);
-			//hbb.queueChange(peerIP);
+			hbb.addToUpList(peerIP);
 		}
 	}
 	
@@ -40,7 +40,7 @@ public class PeerList {
 		}
 		if (!downList.contains(peerIP)) {
 			downList.add(peerIP);
-			//queuechange
+			hbb.addToDownList(peerIP);
 		}
 	}
 }

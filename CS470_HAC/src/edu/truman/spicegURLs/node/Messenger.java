@@ -65,4 +65,13 @@ public class Messenger {
 			e.printStackTrace();
 		}
 	}
+	
+	public void addInitialPeer (InetAddress firstPeerIP) {
+		//add ourselves to heartbeat buffer
+		hbb.addToUpList(socket.getInetAddress());
+		
+		//add the first peer to peer list
+		pl.addPeer(firstPeerIP);
+	}
+	
 }
