@@ -26,10 +26,6 @@ public class Messenger {
 		timer = new Timer();
 	}
 	
-	public void addInitialPeer(InetAddress ip) {
-		pl.addInitialPeer(ip);
-	}
-	
 	public void waitToSendNextHeartbeat () {
 		
 		timer.schedule(new TimerTask() {
@@ -53,7 +49,7 @@ public class Messenger {
 	}
 	
 	private void sendChangesToAll (String changes) {
-		ArrayList<InetAddress> peers = pl.getPeerList();
+		ArrayList<InetAddress> peers = pl.getUpPeerList();
 		for (InetAddress peerIP : peers) {
 			this.sendChangesToPeer(changes, peerIP);
 		}

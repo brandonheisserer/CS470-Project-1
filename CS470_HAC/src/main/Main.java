@@ -33,7 +33,7 @@ public class Main {
 				}
 	
 				Messenger messenger = new Messenger(); // this also triggers the listener thread
-				messenger.addInitialPeer(ip);
+				//messenger.addInitialPeer(ip);
 				messenger.waitToSendNextHeartbeat();
 				break;
 			}

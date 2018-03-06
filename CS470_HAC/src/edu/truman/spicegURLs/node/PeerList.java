@@ -2,32 +2,45 @@ package edu.truman.spicegURLs.node;
 
 import java.net.InetAddress;
 import java.util.ArrayList;
+import javax.print.attribute.standard.PagesPerMinute;
 
 public class PeerList {
 
 	private HeartbeatBuffer hbb;
-	ArrayList<InetAddress> peerList;
+	ArrayList<InetAddress> upList;
+	ArrayList<InetAddress> downList;
 	
 	public PeerList(HeartbeatBuffer hbb) {
 		this.hbb = hbb;
-		peerList = new ArrayList<>();
+		upList = new ArrayList<>();
+		downList = new ArrayList<>();
 	}
 	
-	public ArrayList<InetAddress> getPeerList() {
-		return peerList;
+	public ArrayList<InetAddress> getUpPeerList() {
+		return upList;
 	}
 	
-	public void addInitialPeer (InetAddress peerIP) {
+	/*public void addInitialPeer (InetAddress peerIP) {
 		peerList.add(peerIP);
-	}
+	}*/
 	
 	public void addPeer (InetAddress peerIP) {
-		peerList.add(peerIP);
-		hbb.queueChange("U" + peerIP.getHostAddress());
+		if (downList.contains(peerIP)) {
+			downList.remove(peerIP);
+		}
+		if (!upList.contains(peerIP)) {
+			upList.add(peerIP);
+			//hbb.queueChange(peerIP);
+		}
 	}
 	
 	public void dropPeer (InetAddress peerIP) {
-		peerList.remove(peerIP);
-		hbb.queueChange("D" + peerIP.getHostAddress());
+		if (upList.contains(peerIP)) {
+			upList.remove(peerIP);
+		}
+		if (!downList.contains(peerIP)) {
+			downList.add(peerIP);
+			//queuechange
+		}
 	}
 }
