@@ -2,13 +2,14 @@ package edu.truman.spicegURLs.node;
 
 import java.net.InetAddress;
 import java.util.ArrayList;
-import javax.print.attribute.standard.PagesPerMinute;
 
 public class PeerList {
 
 	private HeartbeatBuffer hbb;
 	ArrayList<InetAddress> upList;
 	ArrayList<InetAddress> downList;
+	
+	int printCounter = 0;
 	
 	public PeerList(HeartbeatBuffer hbb) {
 		this.hbb = hbb;
@@ -20,10 +21,6 @@ public class PeerList {
 		return upList;
 	}
 	
-	/*public void addInitialPeer (InetAddress peerIP) {
-		peerList.add(peerIP);
-	}*/
-	
 	public void addPeer (InetAddress peerIP) {
 		if (downList.contains(peerIP)) {
 			downList.remove(peerIP);
@@ -32,6 +29,7 @@ public class PeerList {
 			upList.add(peerIP);
 			hbb.addToUpList(peerIP);
 		}
+		printLists();
 	}
 	
 	public void dropPeer (InetAddress peerIP) {
@@ -42,5 +40,19 @@ public class PeerList {
 			downList.add(peerIP);
 			hbb.addToDownList(peerIP);
 		}
+		printLists();
+	}
+	
+	public void printLists () {
+		System.out.println("Spice gUrls Status " + printCounter++);
+		System.out.println("Up List:");
+		for (InetAddress inetAddress : upList) {
+			System.out.println(inetAddress);
+		}
+		System.out.println("Down List: ");
+		for (InetAddress inetAddress : downList) {
+			System.out.println(inetAddress);
+		}
+		System.out.println("");
 	}
 }
