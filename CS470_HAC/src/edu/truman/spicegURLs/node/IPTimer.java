@@ -41,7 +41,7 @@ public class IPTimer extends Thread {
 				Thread.sleep(100);
 			}
 			catch(Exception e){
-				System.err.println("Thread Timer: " +IP+" Died");
+				System.err.println("Thread Timer: " +IP+" sleep failed");
 				System.err.println(e);
 			}
 		}
