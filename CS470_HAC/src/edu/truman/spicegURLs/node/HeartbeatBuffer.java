@@ -40,7 +40,6 @@ public class HeartbeatBuffer {
 		for (int i = 0; i < downList.size(); i++) {
 			packet += downList.get(i).getHostAddress() + ",";
 		}
-		packet += ";";
 		
 		emptyLists();
 		
