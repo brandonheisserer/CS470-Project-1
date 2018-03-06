@@ -15,30 +15,32 @@ public class Listener implements Runnable {
 		IPTimers = new ArrayList<IPTimer>();
 	}
 	
-	private void onReceive (String message) {
-
-        ArrayList<String> changes = this.parseChanges(message);
-        
-        for (String change : changes) {
-        	InetAddress peerIP;
+	public void parsePacket (String message) {
+		String[] packet = message.split(";");
+		String version = packet[0];
+		boolean join = packet[1] != "0";
+		String[] upList = packet[2].split(",");
+		String[] downList = packet[2].split(",");
+		
+		for (int i = 0; i < upList.length; i++) {
+			InetAddress newNode;
 			try {
-				peerIP = InetAddress.getByName(change.substring(1));
-				if (change.startsWith("U")) {
-					pl.addPeer(peerIP);
-				} else if (change.startsWith("D")) {
-					pl.dropPeer(peerIP);
-				} else {
-					System.out.println("Bad change code: " + change);
-				}
+				newNode = InetAddress.getByName(upList[i]);
+				pl.addPeer(newNode);
 			} catch (UnknownHostException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
-	}
-	
-	private ArrayList<String> parseChanges(String message) {
-		return new ArrayList<String>(Arrays.asList(message.split(";")));
+		
+		for (int i = 0; i < downList.length; i++) {
+			InetAddress newNode;
+			try {
+				newNode = InetAddress.getByName(downList[i]);
+				pl.dropPeer(newNode);
+			} catch (UnknownHostException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 	
 	@Override
@@ -67,8 +69,7 @@ public class Listener implements Runnable {
                 System.out.println("Client IP:" + IPAddress.getHostAddress());
                 System.out.println("Client port:" + port);
                 
-                
-                this.onReceive(message);
+                parsePacket(message);
             }
         } 
         catch (SocketException e) 
