@@ -8,13 +8,13 @@ import java.util.Stack;
 import javax.swing.Timer;
 
 public class IPTimer extends Thread {
-	Stack<InetAddress> reciver;
+	Stack<InetAddress> receiver;
 	InetAddress IP;
 	Timer time;
 	PeerList pr;
 	
 	public IPTimer(InetAddress IPARG, PeerList prarg){
-		reciver = new Stack<InetAddress>();
+		receiver = new Stack<InetAddress>();
 		IP = IPARG;
 		time = new Timer(5000, new ActionListener(){
 
@@ -31,11 +31,11 @@ public class IPTimer extends Thread {
 		// TODO Auto-generated method stub
 		time.start();
 		while(true){
-			if(!reciver.isEmpty()){
-				if(reciver.peek().getHostAddress().equals(IP.getHostAddress())){
+			if(!receiver.isEmpty()){
+				if(receiver.peek().getHostAddress().equals(IP.getHostAddress())){
 					time.restart();
 				}
-				reciver.pop();
+				receiver.pop();
 			}
 			try{
 				Thread.sleep(100);
@@ -48,7 +48,7 @@ public class IPTimer extends Thread {
 		
 	}
 	public void SendIP(InetAddress IPARG){
-		reciver.push(IPARG);
+		receiver.push(IPARG);
 	}
 	private void timeout(){
 		pr.dropPeer(IP);
