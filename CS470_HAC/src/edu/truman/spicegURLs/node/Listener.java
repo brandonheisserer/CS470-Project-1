@@ -9,9 +9,10 @@ public class Listener implements Runnable {
 
 	DatagramSocket socket = null;
 	private PeerList pl;
-	
+	private ArrayList<IPTimer> IPTimers;
 	public Listener (PeerList pl) {
 		this.pl = pl;
+		IPTimers = new ArrayList<IPTimer>();
 	}
 	
 	private void onReceive (String message) {
@@ -59,7 +60,9 @@ public class Listener implements Runnable {
                 String message = new String(incomingPacket.getData());
                 InetAddress IPAddress = incomingPacket.getAddress();
                 int port = incomingPacket.getPort();
-                
+                for(int i = 1; i<IPTimers.size(),i++){
+                	IPTimers.get(i).SendIP(IPAddress);
+                }
                 System.out.println("Received message from client: " + message);
                 System.out.println("Client IP:" + IPAddress.getHostAddress());
                 System.out.println("Client port:" + port);
