@@ -8,10 +8,10 @@ import java.util.Stack;
 import javax.swing.Timer;
 
 public class IPTimer extends Thread {
-	Stack<InetAddress> receiver;
-	InetAddress IP;
-	Timer time;
-	PeerList pr;
+	private Stack<InetAddress> receiver;
+	private InetAddress IP;
+	private Timer time;
+	private PeerList pr;
 	
 	public IPTimer(InetAddress IPARG, PeerList prarg){
 		receiver = new Stack<InetAddress>();
