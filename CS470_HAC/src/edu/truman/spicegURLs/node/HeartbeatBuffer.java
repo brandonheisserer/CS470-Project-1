@@ -4,21 +4,50 @@ import java.util.ArrayList;
 
 public class HeartbeatBuffer {
 	
-	private ArrayList<String> changeList;
+	public static final String version = "1.0";
+	
+	private boolean join;
+	private ArrayList<String> upList;
+	private ArrayList<String> downList;
 	
 	public HeartbeatBuffer () {
-		changeList = new ArrayList<>();
+		join = true;
+		upList = new ArrayList<>();
+		downList = new ArrayList<>();
 	}
 	
-	public String getChanges() {
-		if (changeList.size() > 0) {
-			return String.join(";", changeList);
-			// empty array list?
+	public void addToUpList (String upNode) {
+		upList.add(upNode);
+	}
+	
+	public void addToDownList (String downNode) {
+		downList.add(downNode);
+	}
+	
+	public String getPacket() {
+		String packet = version + ";";
+		if (join) {
+			packet += "1;";
+			join = false;
+		} else {
+			packet += "0;";
 		}
-		return "X";
+		for (int i = 0; i < upList.size(); i++) {
+			packet += upList.get(i) + ",";
+		}
+		packet += ";";
+		for (int i = 0; i < downList.size(); i++) {
+			packet += downList.get(i) + ",";
+		}
+		packet += ";";
+		
+		emptyLists();
+		
+		return packet;
 	}
 	
-	public void queueChange (String change) {
-		changeList.add(change);
+	private void emptyLists() {
+		upList = new ArrayList<>();
+		downList = new ArrayList<>();
 	}
 }
