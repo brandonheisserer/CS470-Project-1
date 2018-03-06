@@ -60,7 +60,7 @@ public class Listener implements Runnable {
                 String message = new String(incomingPacket.getData());
                 InetAddress IPAddress = incomingPacket.getAddress();
                 int port = incomingPacket.getPort();
-                for(int i = 1; i<IPTimers.size(),i++){
+                for(int i = 0; i < IPTimers.size(); i++){
                 	IPTimers.get(i).SendIP(IPAddress);
                 }
                 System.out.println("Received message from client: " + message);
