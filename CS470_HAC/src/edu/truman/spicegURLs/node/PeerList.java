@@ -38,7 +38,9 @@ public class PeerList {
 	}
 	
 	public void addPeer (InetAddress peerIP) {
-		if (ourIP.equals(peerIP)) return;
+		if (ourIP.equals(peerIP)){
+			return;
+		}
 		
 		if (downList.contains(peerIP)) {
 			downList.remove(peerIP);
@@ -51,7 +53,9 @@ public class PeerList {
 	}
 	
 	public void dropPeer (InetAddress peerIP) {
-		if (ourIP.equals(peerIP)) return;
+		if (ourIP.equals(peerIP)){
+			return;
+		}
 		
 		if (upList.contains(peerIP)) {
 			upList.remove(peerIP);

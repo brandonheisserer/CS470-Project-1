@@ -52,7 +52,7 @@ public class Messenger {
 	}
 	
 	private void sendChangesToAll (String changes) {
-		ArrayList<InetAddress> peers = pl.getListOfAllPeers();
+		ArrayList<InetAddress> peers = pl.getUpPeerList();
 		if (peers.size() > 0) {
 			System.out.println("Sending heartbeat: " + changes);
 		}
