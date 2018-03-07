@@ -15,6 +15,7 @@ public class Main {
 			System.out.println("2 - Connect to a node");
 			Scanner sc = new Scanner(System.in);
 			int i = sc.nextInt();
+			sc.nextLine();
 			if (i == 1) {
 				Messenger messenger = new Messenger(); // this also triggers the listener thread
 				messenger.waitToSendNextHeartbeat();
@@ -31,9 +32,9 @@ public class Main {
 						e.printStackTrace();
 					}
 				}
-	
+				System.out.println("IP " + ip + " entered, starting..." );
 				Messenger messenger = new Messenger(); // this also triggers the listener thread
-				//messenger.addInitialPeer(ip);
+				messenger.addInitialPeer(ip);
 				messenger.waitToSendNextHeartbeat();
 				break;
 			}
