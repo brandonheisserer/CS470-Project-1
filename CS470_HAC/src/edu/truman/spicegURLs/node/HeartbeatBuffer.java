@@ -16,7 +16,6 @@ public class HeartbeatBuffer {
 	
 	public static final String version = "1.0";
 	
-	private boolean join;
 	private ArrayList<InetAddress> upList;
 	private ArrayList<InetAddress> downList;
 	
@@ -26,7 +25,6 @@ public class HeartbeatBuffer {
 	 * @return HeartbeatBuffer object.
 	 */
 	public HeartbeatBuffer () {
-		join = true;
 		upList = new ArrayList<>();
 		downList = new ArrayList<>();
 	}
@@ -54,12 +52,6 @@ public class HeartbeatBuffer {
 	 */
 	public String getPacket() {
 		String packet = version + ";";
-		if (join) {
-			packet += "1;";
-			join = false;
-		} else {
-			packet += "0;";
-		}
 		for (int i = 0; i < upList.size(); i++) {
 			packet += upList.get(i).getHostAddress() + ",";
 		}
