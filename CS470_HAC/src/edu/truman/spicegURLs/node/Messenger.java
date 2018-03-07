@@ -86,7 +86,7 @@ public class Messenger {
 	}
 	
 	public void sendListforJoin(InetAddress IP){
-		ArrayList<InetAddress> upList = pl.getUpPeerList();
+		ArrayList<InetAddress> upList = pl.getListOfAllPeers();
 		byte[] sendMessage;
 		
 		String packet = ThreadLocalRandom.current().nextInt(10000, 99999) + ";";
