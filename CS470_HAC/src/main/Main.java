@@ -16,9 +16,16 @@ public class Main {
 			Scanner sc = new Scanner(System.in);
 			int i = sc.nextInt();
 			sc.nextLine();
+			Messenger messenger;
 			if (i == 1) {
-				Messenger messenger = new Messenger(); // this also triggers the listener thread
+				messenger = new Messenger(); // this also triggers the listener thread
 				messenger.waitToSendNextHeartbeat();
+				try {
+					messenger.listener.join();
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				break;
 			} else if (i == 2) {
 				InetAddress ip;
@@ -33,9 +40,15 @@ public class Main {
 					}
 				}
 				System.out.println("IP " + ip + " entered, starting..." );
-				Messenger messenger = new Messenger(); // this also triggers the listener thread
+				messenger = new Messenger(); // this also triggers the listener thread
 				messenger.addInitialPeer(ip);
 				messenger.waitToSendNextHeartbeat();
+				try {
+					messenger.listener.join();
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				break;
 			}
 

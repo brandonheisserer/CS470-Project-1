@@ -14,7 +14,7 @@ public class IPTimer extends Thread {
 	private PeerList pr;
 	
 	/*Creates and instance of the object IPTimer and initializes all local variables
-	 * @param InetAddress of the IP you want to listen for, PeerList, a refference to your peerlist
+	 * @param InetAddress of the IP you want to listen for, PeerList, a reference to your peerlist
 	 * @return IPTimer object
 	 */
 	public IPTimer(InetAddress IPARG, PeerList prarg){
