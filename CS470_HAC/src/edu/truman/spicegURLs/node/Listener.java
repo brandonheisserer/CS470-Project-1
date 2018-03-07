@@ -9,10 +9,10 @@ public class Listener implements Runnable {
 
 	DatagramSocket socket = null;
 	private PeerList pl;
-	private ArrayList<IPTimer> IPTimers;
+	private ArrayList<IPTimer> favorites;
 	public Listener (PeerList pl) {
 		this.pl = pl;
-		IPTimers = new ArrayList<IPTimer>();
+		favorites = new ArrayList<IPTimer>();
 	}
 	
 	public void parsePacket (String message) {
@@ -62,8 +62,8 @@ public class Listener implements Runnable {
                 String message = new String(incomingPacket.getData());
                 InetAddress IPAddress = incomingPacket.getAddress();
                 int port = incomingPacket.getPort();
-                for(int i = 0; i < IPTimers.size(); i++){
-                	IPTimers.get(i).SendIP(IPAddress);
+                for(int i = 0; i < favorites.size(); i++){
+                	favorites.get(i).SendIP(IPAddress);
                 }
                 System.out.println("Received message from client: " + message);
                 System.out.println("Client IP:" + IPAddress.getHostAddress());
@@ -81,4 +81,7 @@ public class Listener implements Runnable {
             i.printStackTrace();
         }
     }
+	public void addIPTimer(InetAddress IP){
+		favorites.add(new IPTimer(IP,pl));
+	}
 }

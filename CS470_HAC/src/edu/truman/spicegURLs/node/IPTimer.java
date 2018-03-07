@@ -13,7 +13,12 @@ public class IPTimer extends Thread {
 	private Timer time;
 	private PeerList pr;
 	
+	/*Creates and instance of the object IPTimer and initializes all local variables
+	 * @param InetAddress of the IP you want to listen for, PeerList, a refference to your peerlist
+	 * @return IPTimer object
+	 */
 	public IPTimer(InetAddress IPARG, PeerList prarg){
+		super(IPARG.getHostAddress());
 		receiver = new Stack<InetAddress>();
 		IP = IPARG;
 		time = new Timer(5000, new ActionListener(){
@@ -26,6 +31,11 @@ public class IPTimer extends Thread {
 			
 		});
 	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see java.lang.Thread#run()
+	 */
 	@Override
 	public void run() {
 		// TODO Auto-generated method stub
@@ -47,9 +57,15 @@ public class IPTimer extends Thread {
 		}
 		
 	}
+	/*
+	 * gives an InetAddress to the buffer to check for time out
+	 */
 	public void SendIP(InetAddress IPARG){
 		receiver.push(IPARG);
 	}
+	/*
+	 * Calls when node times out, tells the peer list to drop the associated IP and kills the thread
+	 */
 	private void timeout(){
 		pr.dropPeer(IP);
 		Thread.currentThread().interrupt();
