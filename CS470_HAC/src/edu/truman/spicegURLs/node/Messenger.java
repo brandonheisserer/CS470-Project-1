@@ -90,17 +90,20 @@ public class Messenger {
 	}
 	
 	public void sendListforJoin(InetAddress IP){
-		ArrayList<InetAddress> data = pl.getUpPeerList();
-		String message = "";
+		ArrayList<InetAddress> upList = pl.getUpPeerList();
 		byte[] sendMessage;
-		message += "1.0;";
-		for(int i = 0; i < data.size(); i++){
-			message += data.get(i).getHostAddress();
-			message += ",";
+		
+		String packet = "1.0;";
+		String delim = "";
+		for (int i = 0; i < upList.size(); i++) {
+			packet += delim + upList.get(i).getHostAddress();
+			delim = ",";
 		}
-		message += ';';
-		System.out.println("Sending full list heartbeat: " + message);
-		sendMessage = message.getBytes();
+		packet += ";";
+		
+		System.out.println("Sending full list heartbeat: " + packet);
+		
+		sendMessage = packet.getBytes();
 		DatagramPacket sendPacket = new DatagramPacket(sendMessage, sendMessage.length, IP, 8585);
 		try {
 			socket.send(sendPacket);
