@@ -24,6 +24,7 @@ public class IPTimer extends Thread {
 		receiver = new Stack<InetAddress>();
 		IP = IPARG;
 		list = listarg;
+		pr = prarg;
 		time = new Timer(5000, new ActionListener(){
 
 			@Override
