@@ -81,12 +81,6 @@ public class Messenger {
 	public void addInitialPeer (InetAddress firstPeerIP) {	
 		//add the first peer to peer list
 		pl.addPeer(firstPeerIP);
-		try {
-			pl.addPeer(InetAddress.getLocalHost());
-		} catch (UnknownHostException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 	}
 	
 	public void sendListforJoin(InetAddress IP){
