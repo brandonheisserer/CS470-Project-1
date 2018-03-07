@@ -48,12 +48,14 @@ public class Messenger {
 	private int getInterval () {
 		// random number between 0 and 30
 		//return ThreadLocalRandom.current().nextInt(0, 31);
-		return 1;
+		return 4;
 	}
 	
 	private void sendChangesToAll (String changes) {
-		ArrayList<InetAddress> peers = pl.getUpPeerList();
-		System.out.println("Sending heartbeat: " + changes);
+		ArrayList<InetAddress> peers = pl.getListOfAllPeers();
+		if (peers.size() > 0) {
+			System.out.println("Sending heartbeat: " + changes);
+		}
 		for (InetAddress peerIP : peers) {
 			try {
 				if(!peerIP.equals(InetAddress.getLocalHost())){

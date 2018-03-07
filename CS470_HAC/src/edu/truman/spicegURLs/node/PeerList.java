@@ -30,6 +30,13 @@ public class PeerList {
 		return upList;
 	}
 	
+	public ArrayList<InetAddress> getListOfAllPeers() {
+		ArrayList<InetAddress> temp = new ArrayList<>();
+		temp.addAll(upList);
+		temp.addAll(downList);
+		return temp;
+	}
+	
 	public void addPeer (InetAddress peerIP) {
 		if (ourIP.equals(peerIP)) return;
 		
