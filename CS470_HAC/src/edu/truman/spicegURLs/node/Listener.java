@@ -25,6 +25,7 @@ public class Listener implements Runnable {
 		
 		for (int i = 0; i < upList.length; i++) {
 			InetAddress newNode;
+			System.out.println("oooooooooooo: " + upList[i] + " end");
 			try {
 				newNode = InetAddress.getByName(upList[i]);
 				pl.addPeer(newNode);
