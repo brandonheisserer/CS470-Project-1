@@ -29,8 +29,8 @@ public class PeerList {
 		if (!upList.contains(peerIP)) {
 			upList.add(peerIP);
 			hbb.addToUpList(peerIP);
+			printLists();
 		}
-		printLists();
 	}
 	
 	public void dropPeer (InetAddress peerIP) {
@@ -40,20 +40,21 @@ public class PeerList {
 		if (!downList.contains(peerIP)) {
 			downList.add(peerIP);
 			hbb.addToDownList(peerIP);
+			printLists();
 		}
-		printLists();
 	}
 	
 	public void printLists () {
-		System.out.println("Spice gUrls Status " + printCounter++);
-		System.out.println("Up List:");
+		System.out.println("\n---Begin status update " + printCounter++);
+		System.out.println("Current peer list:");
+		System.out.println(upList.size() + " up list entries:");
 		for (InetAddress inetAddress : upList) {
 			System.out.println(inetAddress);
 		}
-		System.out.println("Down List: ");
+		System.out.println(downList.size() + " down list entries:");
 		for (InetAddress inetAddress : downList) {
 			System.out.println(inetAddress);
 		}
-		System.out.println("");
+		System.out.println("---End status update\n");
 	}
 }
