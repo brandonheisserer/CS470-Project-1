@@ -78,7 +78,8 @@ public class IPTimer extends Thread {
 		System.out.println("IPTimer: " + IP.getHostAddress() + " timed out, putting them on down list");
 		pr.dropPeer(IP);
 		list.remove(this);
-		Thread.currentThread().interrupt();
+		time.stop();
+		this.interrupt();
 	}
 
 }
