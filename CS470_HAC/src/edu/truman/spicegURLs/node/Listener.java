@@ -73,7 +73,7 @@ public class Listener implements Runnable {
                 // make sure the sender is on our up list
                 pl.addPeer(ipOfSender);
                 
-                System.out.println("Received hearbeat: " + message);
+                System.out.println("Received heartbeat: " + message);
                 System.out.println(".....from:" + ipOfSender.getHostAddress());
                 
                 if(!isIPinOurFavorites(ipOfSender)){
