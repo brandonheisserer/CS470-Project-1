@@ -19,13 +19,20 @@ public class Listener implements Runnable {
 	
 	public void parsePacket (String message) {
 		String[] packet = message.split(";");
-		String version = packet[0];
+		//String version = packet[0];
 		String[] upList = packet[1].split(",");
 		String[] downList = packet[2].split(",");
 		
+		if (upList.length == 1 && upList[0].isEmpty()) {
+			upList = new String[0];
+		}
+		
+		if (downList.length == 1 && downList[0].isEmpty()) {
+			downList = new String[0];
+		}
+		
 		for (int i = 0; i < upList.length; i++) {
 			InetAddress newNode;
-			System.out.println("oooooooooooo: " + upList[i] + " end");
 			try {
 				newNode = InetAddress.getByName(upList[i]);
 				pl.addPeer(newNode);
