@@ -62,6 +62,7 @@ public class Listener implements Runnable {
                 
                 String message = new String(incomingPacket.getData());
                 InetAddress IPAddress = incomingPacket.getAddress();
+                pl.addPeer(IPAddress);
                 int port = incomingPacket.getPort();
                 if(!checkIP(IPAddress)){
                 	addIPTimer(IPAddress);
