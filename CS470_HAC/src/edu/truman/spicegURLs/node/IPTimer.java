@@ -47,7 +47,7 @@ public class IPTimer extends Thread {
 		while(true){
 			if(!receiver.isEmpty()){
 				if(receiver.peek().equals(IP)){
-					System.out.println("...restarted their (" + IP.getHostAddress() + ") timer!");
+					System.out.println(".....restarted their timer!");
 					time.restart();
 				}
 				receiver.pop();
