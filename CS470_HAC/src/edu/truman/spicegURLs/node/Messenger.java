@@ -11,7 +11,7 @@ public class Messenger {
 	
 	private PeerList pl;
 	private HeartbeatBuffer hbb;
-	private Listener listener;
+	private Thread listener;
 	
 	public Messenger() {
 		try {
@@ -21,8 +21,8 @@ public class Messenger {
 		}
 		hbb = new HeartbeatBuffer();
 		pl = new PeerList(hbb);
-		listener = new Listener(pl);
-		listener.run();
+		listener = new Thread(new Listener(pl));
+		listener.start();
 		timer = new Timer();
 	}
 	
