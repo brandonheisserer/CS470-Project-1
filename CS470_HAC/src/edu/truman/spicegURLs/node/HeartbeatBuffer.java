@@ -2,6 +2,7 @@ package edu.truman.spicegURLs.node;
 
 import java.net.InetAddress;
 import java.util.ArrayList;
+import java.util.concurrent.ThreadLocalRandom;
 
 /**
  * Keeps track of changes to the up nodes and down nodes in the
@@ -51,7 +52,7 @@ public class HeartbeatBuffer {
 	 * @return
 	 */
 	public String getPacket() {
-		String packet = version + ";";
+		String packet = ThreadLocalRandom.current().nextInt(10000, 99999) + ";";
 		String delim = "";
 		for (int i = 0; i < upList.size(); i++) {
 			packet += delim + upList.get(i).getHostAddress();

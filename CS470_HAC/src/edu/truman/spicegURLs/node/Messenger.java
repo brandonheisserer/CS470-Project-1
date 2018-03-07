@@ -53,7 +53,7 @@ public class Messenger {
 	
 	private void sendChangesToAll (String changes) {
 		ArrayList<InetAddress> peers = pl.getUpPeerList();
-		System.out.println("Sending heartbeat: Sending changes: " + changes);
+		System.out.println("Sending heartbeat: " + changes);
 		for (InetAddress peerIP : peers) {
 			try {
 				if(!peerIP.equals(InetAddress.getLocalHost())){
@@ -93,7 +93,7 @@ public class Messenger {
 		ArrayList<InetAddress> upList = pl.getUpPeerList();
 		byte[] sendMessage;
 		
-		String packet = "1.0;";
+		String packet = ThreadLocalRandom.current().nextInt(10000, 99999) + ";";
 		String delim = "";
 		for (int i = 0; i < upList.size(); i++) {
 			packet += delim + upList.get(i).getHostAddress();
