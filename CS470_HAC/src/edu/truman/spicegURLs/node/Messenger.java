@@ -5,6 +5,8 @@ import java.net.*;
 import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
 
+import javax.sound.midi.Soundbank;
+
 public class Messenger {
 
 	private DatagramSocket socket;
@@ -31,10 +33,8 @@ public class Messenger {
 		timer.schedule(new TimerTask() {
 			  @Override
 			  public void run() {
-				  System.out.println("Sending heartbeat...");
 				  // pull info from heartbeat buffer
 				  String packet = hbb.getPacket();
-				  System.out.println("Sending heartbeat: " + packet);
 				  
 				  // send data to all peers on list
 				  Messenger.this.sendChangesToAll(packet);
@@ -53,9 +53,15 @@ public class Messenger {
 	
 	private void sendChangesToAll (String changes) {
 		ArrayList<InetAddress> peers = pl.getUpPeerList();
+		if (peers.size() > 0) {
+			System.out.println("Heartbeat: No new changes");
+		} else {
+			System.out.println("Heartbeat: Sending changes: " + changes);
+		}
 		for (InetAddress peerIP : peers) {
 			this.sendChangesToPeer(changes, peerIP);
 		}
+
 	}
 	
 	private void sendChangesToPeer (String changes, InetAddress peerIP) {
@@ -63,7 +69,7 @@ public class Messenger {
 		try {
 			DatagramPacket sendPacket = new DatagramPacket(data, data.length, peerIP, 9876);
 			socket.send(sendPacket);
-			System.out.println("Changes of length " + changes.length() + " sent to " + peerIP.getHostAddress());
+			System.out.println(".....to " + peerIP.getHostAddress());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -84,12 +90,12 @@ public class Messenger {
 			message += ",";
 		}
 		message += ';';
-		System.out.println("join Message: " + message);
+		System.out.println("Full list heartbeat: " + message);
 		sendMessage = message.getBytes();
 		DatagramPacket sendPacket = new DatagramPacket(sendMessage, sendMessage.length, IP, 9876);
 		try {
 			socket.send(sendPacket);
-			System.out.println(IP.getHostAddress() + "joined");
+			System.out.println(".....to " + IP.getHostAddress());
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

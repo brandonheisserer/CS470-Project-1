@@ -16,7 +16,6 @@ public class PeerList {
 		this.hbb = hbb;
 		upList = new ArrayList<>();
 		downList = new ArrayList<>();
-		System.out.println(upList.size());
 	}
 	
 	public ArrayList<InetAddress> getUpPeerList() {
@@ -24,7 +23,6 @@ public class PeerList {
 	}
 	
 	public void addPeer (InetAddress peerIP) {
-		System.out.println(peerIP);
 		if (downList.contains(peerIP)) {
 			downList.remove(peerIP);
 		}

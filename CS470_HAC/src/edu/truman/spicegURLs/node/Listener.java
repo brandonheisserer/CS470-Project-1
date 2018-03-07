@@ -70,9 +70,8 @@ public class Listener implements Runnable {
                 for(int i = 0; i < favorites.size(); i++){
                 	favorites.get(i).SendIP(IPAddress);
                 }
-                System.out.println("Received message from client: " + message);
-                System.out.println("Client IP:" + IPAddress.getHostAddress());
-                System.out.println("Client port:" + port);
+                System.out.println("Received hearbeat: " + message);
+                System.out.println(".....from:" + IPAddress.getHostAddress());
                 
                 parsePacket(message);
             }
