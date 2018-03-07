@@ -59,7 +59,14 @@ public class Messenger {
 			System.out.println("Heartbeat: Sending changes: " + changes);
 		}
 		for (InetAddress peerIP : peers) {
-			this.sendChangesToPeer(changes, peerIP);
+			try {
+				if(!peerIP.equals(InetAddress.getLocalHost())){
+					this.sendChangesToPeer(changes, peerIP);
+				}
+			} catch (UnknownHostException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 
 	}
