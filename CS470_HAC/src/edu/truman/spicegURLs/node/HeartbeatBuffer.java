@@ -52,12 +52,17 @@ public class HeartbeatBuffer {
 	 */
 	public String getPacket() {
 		String packet = version + ";";
+		String delim = "";
 		for (int i = 0; i < upList.size(); i++) {
-			packet += upList.get(i).getHostAddress() + ",";
+			packet += delim + upList.get(i).getHostAddress();
+			delim = ",";
 		}
 		packet += ";";
+		
+		delim = "";
 		for (int i = 0; i < downList.size(); i++) {
-			packet += downList.get(i).getHostAddress() + ",";
+			packet += delim + downList.get(i).getHostAddress();
+			delim = ",";
 		}
 		
 		emptyLists();
