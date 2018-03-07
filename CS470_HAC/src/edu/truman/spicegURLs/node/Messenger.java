@@ -27,10 +27,10 @@ public class Messenger {
 	}
 	
 	public void waitToSendNextHeartbeat () {
-		
 		timer.schedule(new TimerTask() {
 			  @Override
 			  public void run() {
+				  System.out.println("Sending heartbeat...");
 				  // pull info from heartbeat buffer
 				  String packet = hbb.getPacket();
 				  
@@ -45,7 +45,8 @@ public class Messenger {
 	
 	private int getInterval () {
 		// random number between 0 and 30
-		return ThreadLocalRandom.current().nextInt(0, 31);
+		//return ThreadLocalRandom.current().nextInt(0, 31);
+		return 1;
 	}
 	
 	private void sendChangesToAll (String changes) {
