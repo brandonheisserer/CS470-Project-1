@@ -3,6 +3,7 @@ package edu.truman.spicegURLs.node;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.net.InetAddress;
+import java.util.ArrayList;
 import java.util.Stack;
 
 import javax.swing.Timer;
@@ -12,15 +13,17 @@ public class IPTimer extends Thread {
 	private InetAddress IP;
 	private Timer time;
 	private PeerList pr;
+	private ArrayList<IPTimer> list;
 	
 	/*Creates and instance of the object IPTimer and initializes all local variables
 	 * @param InetAddress of the IP you want to listen for, PeerList, a reference to your peerlist
 	 * @return IPTimer object
 	 */
-	public IPTimer(InetAddress IPARG, PeerList prarg){
+	public IPTimer(InetAddress IPARG, PeerList prarg, ArrayList<IPTimer> listarg){
 		super(IPARG.getHostAddress());
 		receiver = new Stack<InetAddress>();
 		IP = IPARG;
+		list = listarg;
 		time = new Timer(5000, new ActionListener(){
 
 			@Override
@@ -63,11 +66,15 @@ public class IPTimer extends Thread {
 	public void SendIP(InetAddress IPARG){
 		receiver.push(IPARG);
 	}
+	public boolean isIP(InetAddress IPARG){
+		return IP.getHostAddress().equals(IPARG.getHostAddress());
+	}
 	/*
 	 * Calls when node times out, tells the peer list to drop the associated IP and kills the thread
 	 */
 	private void timeout(){
 		pr.dropPeer(IP);
+		list.remove(this);
 		Thread.currentThread().interrupt();
 	}
 
