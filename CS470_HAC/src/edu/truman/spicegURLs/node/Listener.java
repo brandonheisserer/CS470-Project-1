@@ -8,10 +8,12 @@ import java.util.Arrays;
 public class Listener implements Runnable {
 
 	DatagramSocket socket = null;
+	private Messenger mess;
 	private PeerList pl;
 	private ArrayList<IPTimer> favorites;
-	public Listener (PeerList pl) {
+	public Listener (PeerList pl, Messenger mess) {
 		this.pl = pl;
+		this.mess = mess;
 		favorites = new ArrayList<IPTimer>();
 	}
 	
@@ -63,6 +65,7 @@ public class Listener implements Runnable {
                 int port = incomingPacket.getPort();
                 if(!checkIP(IPAddress)){
                 	addIPTimer(IPAddress);
+                	mess.sendListforJoin(IPAddress);
                 }
                 for(int i = 0; i < favorites.size(); i++){
                 	favorites.get(i).SendIP(IPAddress);
