@@ -65,7 +65,7 @@ public class HeartbeatBuffer {
 			packet += delim + downList.get(i).getHostAddress();
 			delim = ",";
 		}
-		
+		packet += ";";
 		emptyLists();
 		
 		return packet;
