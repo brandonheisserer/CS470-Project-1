@@ -68,13 +68,11 @@ public class Messenger {
 		}
 	}
 	
-	public void addInitialPeer (InetAddress firstPeerIP) {
-		//add ourselves to heartbeat buffer
-		hbb.addToUpList(socket.getInetAddress());
-		
+	public void addInitialPeer (InetAddress firstPeerIP) {	
 		//add the first peer to peer list
 		pl.addPeer(firstPeerIP);
 	}
+	
 	public void sendListforJoin(InetAddress IP){
 		ArrayList<InetAddress> data = pl.getUpPeerList();
 		String message = "";
