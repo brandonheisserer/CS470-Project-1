@@ -78,9 +78,13 @@ public class Messenger {
 		ArrayList<InetAddress> data = pl.getUpPeerList();
 		String message = "";
 		byte[] sendMessage;
+		message += "1.0;";
 		for(int i = 0; i < data.size(); i++){
 			message += data.get(i).getHostAddress();
+			message += ",";
 		}
+		message += ';';
+		System.out.println("join Message: " + message);
 		sendMessage = message.getBytes();
 		DatagramPacket sendPacket = new DatagramPacket(sendMessage, sendMessage.length, IP, 9876);
 		try {
