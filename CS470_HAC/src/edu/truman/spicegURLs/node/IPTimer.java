@@ -73,6 +73,7 @@ public class IPTimer extends Thread {
 	 * Calls when node times out, tells the peer list to drop the associated IP and kills the thread
 	 */
 	private void timeout(){
+		System.out.println(IP.getHostAddress() + " timeout");
 		pr.dropPeer(IP);
 		list.remove(this);
 		Thread.currentThread().interrupt();
