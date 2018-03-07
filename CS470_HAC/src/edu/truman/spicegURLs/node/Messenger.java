@@ -53,11 +53,7 @@ public class Messenger {
 	
 	private void sendChangesToAll (String changes) {
 		ArrayList<InetAddress> peers = pl.getUpPeerList();
-		if (peers.size() > 0) {
-			System.out.println("Heartbeat: No new changes");
-		} else {
-			System.out.println("Heartbeat: Sending changes: " + changes);
-		}
+		System.out.println("Sending heartbeat: Sending changes: " + changes);
 		for (InetAddress peerIP : peers) {
 			try {
 				if(!peerIP.equals(InetAddress.getLocalHost())){
@@ -103,7 +99,7 @@ public class Messenger {
 			message += ",";
 		}
 		message += ';';
-		System.out.println("Full list heartbeat: " + message);
+		System.out.println("Sending full list heartbeat: " + message);
 		sendMessage = message.getBytes();
 		DatagramPacket sendPacket = new DatagramPacket(sendMessage, sendMessage.length, IP, 9876);
 		try {
