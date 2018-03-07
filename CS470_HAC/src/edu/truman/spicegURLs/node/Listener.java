@@ -48,7 +48,7 @@ public class Listener implements Runnable {
     {
         try 
         {
-            socket = new DatagramSocket(9876);
+            socket = new DatagramSocket(8585);
             byte[] incomingData = new byte[1024];
 
             while (true) 
