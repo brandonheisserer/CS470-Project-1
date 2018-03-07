@@ -96,7 +96,9 @@ public class Listener implements Runnable {
         }
     }
 	private void addIPTimer(InetAddress IP){
-		favorites.add(new IPTimer(IP,pl,favorites));
+		IPTimer butts = new IPTimer(IP,pl,favorites);
+		favorites.add(butts);
+		butts.start();
 	}
 	private boolean isIPinOurFavorites(InetAddress IPARG){
 		for(int i = 0; i<favorites.size();i++){
