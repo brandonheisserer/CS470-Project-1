@@ -1,5 +1,6 @@
 package edu.truman.spicegURLs.node;
 
+import java.io.IOException;
 import java.net.*;
 import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
@@ -21,7 +22,7 @@ public class Messenger {
 		}
 		hbb = new HeartbeatBuffer();
 		pl = new PeerList(hbb);
-		listener = new Thread(new Listener(pl));
+		listener = new Thread(new Listener(pl,this));
 		listener.start();
 		timer = new Timer();
 	}
@@ -73,6 +74,24 @@ public class Messenger {
 		
 		//add the first peer to peer list
 		pl.addPeer(firstPeerIP);
+	}
+	public void sendListforJoin(InetAddress IP){
+		ArrayList<InetAddress> data = pl.getUpPeerList();
+		String message = "";
+		byte[] sendMessage;
+		for(int i = 0; i < data.size(); i++){
+			message += data.get(i).getHostAddress();
+		}
+		sendMessage = message.getBytes();
+		DatagramPacket sendPacket = new DatagramPacket(sendMessage, sendMessage.length, IP, 9876);
+		try {
+			socket.send(sendPacket);
+			System.out.println(IP.getHostAddress() + "joined");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 	}
 	
 }
