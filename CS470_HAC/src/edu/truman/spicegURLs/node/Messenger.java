@@ -86,7 +86,7 @@ public class Messenger {
 	}
 	
 	public void sendListforJoin(InetAddress IP){
-		ArrayList<InetAddress> upList = pl.getListOfAllPeers();
+		ArrayList<InetAddress> upList = pl.getUpPeerList();
 		byte[] sendMessage;
 		
 		String packet = ThreadLocalRandom.current().nextInt(10000, 99999) + ";";
@@ -95,7 +95,7 @@ public class Messenger {
 			packet += delim + upList.get(i).getHostAddress();
 			delim = ",";
 		}
-		packet += ";";
+		packet += ";;";
 		
 		System.out.println("Sending full list heartbeat: " + packet);
 		
