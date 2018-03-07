@@ -60,19 +60,29 @@ public class Listener implements Runnable {
                 socket.receive(incomingPacket);
                 
                 String message = new String(incomingPacket.getData());
-                InetAddress IPAddress = incomingPacket.getAddress();
-                pl.addPeer(IPAddress);
-                int port = incomingPacket.getPort();
-                if(!checkIP(IPAddress)){
-                	addIPTimer(IPAddress);
-                	mess.sendListforJoin(IPAddress);
-                }
-                for(int i = 0; i < favorites.size(); i++){
-                	favorites.get(i).SendIP(IPAddress);
-                }
-                System.out.println("Received hearbeat: " + message);
-                System.out.println(".....from:" + IPAddress.getHostAddress());
+                InetAddress ipOfSender = incomingPacket.getAddress();
                 
+                // make sure the sender is on our up list
+                pl.addPeer(ipOfSender);
+                
+                System.out.println("Received hearbeat: " + message);
+                System.out.println(".....from:" + ipOfSender.getHostAddress());
+                
+                if(!isIPinOurFavorites(ipOfSender)){
+                	System.out.println(".....who is NOT on our favorites.");
+                	addIPTimer(ipOfSender);
+                	mess.sendListforJoin(ipOfSender);
+                	System.out.println(".....added a timer for them, and send them entire list.");
+                } else {
+                	System.out.println(".....who is on our favorites.");
+                }
+                
+                // adds the ip of sender to all favorites' stacks
+                for(int i = 0; i < favorites.size(); i++){
+                	favorites.get(i).SendIP(ipOfSender);
+                }
+                
+                // act upon the contents of the message
                 parsePacket(message);
             }
         } 
@@ -88,7 +98,7 @@ public class Listener implements Runnable {
 	private void addIPTimer(InetAddress IP){
 		favorites.add(new IPTimer(IP,pl,favorites));
 	}
-	private boolean checkIP(InetAddress IPARG){
+	private boolean isIPinOurFavorites(InetAddress IPARG){
 		for(int i = 0; i<favorites.size();i++){
 			if(favorites.get(i).isIP(IPARG)){
 				return true;
