@@ -31,7 +31,6 @@ public class Listener implements Runnable {
 				e.printStackTrace();
 			}
 		}
-		
 		for (int i = 0; i < downList.length; i++) {
 			InetAddress newNode;
 			try {
@@ -62,6 +61,9 @@ public class Listener implements Runnable {
                 String message = new String(incomingPacket.getData());
                 InetAddress IPAddress = incomingPacket.getAddress();
                 int port = incomingPacket.getPort();
+                if(!checkIP(IPAddress)){
+                	addIPTimer(IPAddress);
+                }
                 for(int i = 0; i < favorites.size(); i++){
                 	favorites.get(i).SendIP(IPAddress);
                 }
@@ -81,7 +83,15 @@ public class Listener implements Runnable {
             i.printStackTrace();
         }
     }
-	public void addIPTimer(InetAddress IP){
-		favorites.add(new IPTimer(IP,pl));
+	private void addIPTimer(InetAddress IP){
+		favorites.add(new IPTimer(IP,pl,favorites));
+	}
+	private boolean checkIP(InetAddress IPARG){
+		for(int i = 0; i<favorites.size();i++){
+			if(favorites.get(i).isIP(IPARG)){
+				return true;
+			}
+		}
+		return false;
 	}
 }
