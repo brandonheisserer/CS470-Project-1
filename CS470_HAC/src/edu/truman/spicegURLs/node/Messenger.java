@@ -34,6 +34,7 @@ public class Messenger {
 				  System.out.println("Sending heartbeat...");
 				  // pull info from heartbeat buffer
 				  String packet = hbb.getPacket();
+				  System.out.println("Sending heartbeat: " + packet);
 				  
 				  // send data to all peers on list
 				  Messenger.this.sendChangesToAll(packet);

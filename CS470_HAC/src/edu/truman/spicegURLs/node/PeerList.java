@@ -2,6 +2,7 @@ package edu.truman.spicegURLs.node;
 
 import java.net.InetAddress;
 import java.util.ArrayList;
+import java.util.logging.Logger;
 
 public class PeerList {
 
@@ -15,6 +16,7 @@ public class PeerList {
 		this.hbb = hbb;
 		upList = new ArrayList<>();
 		downList = new ArrayList<>();
+		System.out.println(upList.size());
 	}
 	
 	public ArrayList<InetAddress> getUpPeerList() {
@@ -22,6 +24,7 @@ public class PeerList {
 	}
 	
 	public void addPeer (InetAddress peerIP) {
+		System.out.println(peerIP);
 		if (downList.contains(peerIP)) {
 			downList.remove(peerIP);
 		}

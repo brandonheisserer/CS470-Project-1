@@ -20,8 +20,7 @@ public class Listener implements Runnable {
 	public void parsePacket (String message) {
 		String[] packet = message.split(";");
 		String version = packet[0];
-		boolean join = packet[1] != "0";
-		String[] upList = packet[2].split(",");
+		String[] upList = packet[1].split(",");
 		String[] downList = packet[2].split(",");
 		
 		for (int i = 0; i < upList.length; i++) {
