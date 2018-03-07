@@ -49,10 +49,10 @@ public class Listener implements Runnable {
         try 
         {
             socket = new DatagramSocket(8585);
-            byte[] incomingData = new byte[1024];
 
             while (true) 
             {
+            	byte[] incomingData = new byte[1024];
                 DatagramPacket incomingPacket = new DatagramPacket(incomingData, 
                 		incomingData.length);
                 
