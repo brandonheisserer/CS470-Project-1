@@ -70,7 +70,7 @@ public class Messenger {
 	private void sendChangesToPeer (String changes, InetAddress peerIP) {
 		byte[] data = changes.getBytes();
 		try {
-			DatagramPacket sendPacket = new DatagramPacket(data, data.length, peerIP, 9876);
+			DatagramPacket sendPacket = new DatagramPacket(data, data.length, peerIP, 8585);
 			socket.send(sendPacket);
 			System.out.println(".....to " + peerIP.getHostAddress());
 		} catch (Exception e) {
@@ -101,7 +101,7 @@ public class Messenger {
 		message += ';';
 		System.out.println("Sending full list heartbeat: " + message);
 		sendMessage = message.getBytes();
-		DatagramPacket sendPacket = new DatagramPacket(sendMessage, sendMessage.length, IP, 9876);
+		DatagramPacket sendPacket = new DatagramPacket(sendMessage, sendMessage.length, IP, 8585);
 		try {
 			socket.send(sendPacket);
 			System.out.println(".....to " + IP.getHostAddress());
