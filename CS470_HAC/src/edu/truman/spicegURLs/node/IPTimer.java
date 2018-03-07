@@ -45,7 +45,7 @@ public class IPTimer extends Thread {
 		time.start();
 		while(true){
 			if(!receiver.isEmpty()){
-				if(receiver.peek().getHostAddress().equals(IP.getHostAddress())){
+				if(receiver.peek().equals(IP)){
 					System.out.println(IP.getHostAddress() + " timer reset");
 					time.restart();
 				}
@@ -68,7 +68,7 @@ public class IPTimer extends Thread {
 		receiver.push(IPARG);
 	}
 	public boolean isIP(InetAddress IPARG){
-		return IP.getHostAddress().equals(IPARG.getHostAddress());
+		return IP.equals(IPARG);
 	}
 	/*
 	 * Calls when node times out, tells the peer list to drop the associated IP and kills the thread
