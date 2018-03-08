@@ -6,7 +6,7 @@ import java.util.ArrayList;
 /**
  * Keeps track of changes to the up nodes and down nodes in the
  * system and reports them when asked. Further documentation can
- * be found in the P2P version, to which this is identical.
+ * be found in the P2P version, to which this is nearly identical.
  * @author Brandon Crane
  * @author Brandon Heisserer
  * @author Tanner Krewson
