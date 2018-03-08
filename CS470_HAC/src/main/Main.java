@@ -8,12 +8,22 @@ import edu.truman.spicegURLs.node.*;
 public class Main {
 
 	public static void main(String[] args) {
+		Scanner sc = new Scanner(System.in);
 		System.out.println("Welcome to the Spice gUrls HAC!");
+		System.out.println("Would you like debug comments? (Y/N): ");
+		String debug = sc.nextLine();
+		if (debug.equals("Y") || debug.equals("y")) {
+			Globals.verbose = true;
+			System.out.println("Debug comments will be included.\n");
+		} else {
+			Globals.verbose = false;
+			System.out.println("Debug comments will be excluded.\n");
+		}
+		
 		while (true) {
 			System.out.println("Enter a mode:");
 			System.out.println("1 - Server");
 			System.out.println("2 - Client");
-			Scanner sc = new Scanner(System.in);
 			int i = sc.nextInt();
 			sc.nextLine();
 			Messenger messenger;
