@@ -26,13 +26,10 @@ public class IPTimer extends Thread {
 		list = listarg;
 		pr = prarg;
 		time = new Timer(30000, new ActionListener(){
-
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				// TODO Auto-generated method stub
 				timeout();
 			}
-			
 		});
 	}
 	
@@ -42,7 +39,6 @@ public class IPTimer extends Thread {
 	 */
 	@Override
 	public void run() {
-		// TODO Auto-generated method stub
 		time.start();
 		while(true){
 			if(!receiver.isEmpty()){
@@ -60,17 +56,19 @@ public class IPTimer extends Thread {
 			catch(Exception e){
 			}
 		}
-		
 	}
+	
 	/*
 	 * gives an InetAddress to the buffer to check for time out
 	 */
 	public void SendIP(InetAddress IPARG){
 		receiver.push(IPARG);
 	}
+	
 	public boolean isIP(InetAddress IPARG){
 		return IP.equals(IPARG);
 	}
+	
 	/*
 	 * Calls when node times out, tells the peer list to drop the associated IP and kills the thread
 	 */
