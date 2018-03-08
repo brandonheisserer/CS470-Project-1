@@ -5,15 +5,31 @@ import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.logging.Logger;
 
+/**
+ * Keeps a list of all peers that are currently alive,
+ * and another list of the peers that are down.
+ * @author Brandon Crane
+ * @author Brandon Heisserer
+ * @author Tanner Krewson
+ * @author Carl Yarwood
+ * @version 7 March 2018
+ */
 public class PeerList {
 
 	private HeartbeatBuffer hbb;
+	
 	ArrayList<InetAddress> upList;
 	ArrayList<InetAddress> downList;
+	
 	private InetAddress ourIP;
+	private int printCounter = 0;
 	
-	int printCounter = 0;
-	
+	/**
+	 * Creates an instance of the object PeerList and initializes
+	 * all local variables.
+	 * @param hbb reference to the heartbeat buffer
+	 * @return PeerList object
+	 */
 	public PeerList(HeartbeatBuffer hbb) {
 		this.hbb = hbb;
 		upList = new ArrayList<>();
@@ -26,10 +42,20 @@ public class PeerList {
 		}
 	}
 	
+	/**
+	 * Returns an ArrayList of all of the peers that 
+	 * are alive.
+	 * @return list of alive peers
+	 */
 	public ArrayList<InetAddress> getUpPeerList() {
 		return upList;
 	}
 	
+	/**
+	 * Returns an ArrayList of all of the peers, whether 
+	 * they are alive or down.
+	 * @return list of all peers
+	 */
 	public ArrayList<InetAddress> getListOfAllPeers() {
 		ArrayList<InetAddress> temp = new ArrayList<>();
 		temp.addAll(upList);
@@ -37,6 +63,11 @@ public class PeerList {
 		return temp;
 	}
 	
+	/**
+	 * Adds a peer to the up list, and removes them 
+	 * from the down list if they were.
+	 * @param peerIP ip of the peer to add
+	 */
 	public void addPeer (InetAddress peerIP) {
 		if (ourIP.equals(peerIP)){
 			return;
@@ -52,6 +83,11 @@ public class PeerList {
 		}
 	}
 	
+	/**
+	 * Adds a peer to the down list, and removes them 
+	 * from the up list if they were.
+	 * @param peerIP ip of the peer to add
+	 */
 	public void dropPeer (InetAddress peerIP) {
 		if (ourIP.equals(peerIP)){
 			return;
@@ -67,6 +103,9 @@ public class PeerList {
 		}
 	}
 	
+	/**
+	 * Prints out both the up list and the down list.
+	 */
 	public void printLists () {
 		System.out.println("\n---Begin status update #" + printCounter);
 		System.out.println(upList.size() + " up list entries:");
