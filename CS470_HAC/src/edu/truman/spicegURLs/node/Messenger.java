@@ -38,7 +38,7 @@ public class Messenger implements Runnable {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				// TODO Auto-generated method stub
-				String packet = hbb.getPacket();
+				String packet = "1.0;;;";
 				Messenger.this.sendChangesToPeer(packet,serverIP);
 				Messenger.this.clientHeartbeat();
 			}
