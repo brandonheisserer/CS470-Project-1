@@ -45,7 +45,7 @@ public class Messenger {
 	 * Grabs the latest changes and sends heartbeats to 
 	 * all peers at intervals.
 	 */
-	public void waitToSendNextHeartbeat () {
+	public void waitToSendNextHeartbeat (boolean firstInstant) {
 		timer.schedule(new TimerTask() {
 			  @Override
 			  public void run() {
@@ -56,17 +56,17 @@ public class Messenger {
 				  Messenger.this.sendChangesToAll(packet);
 				  
 				  // wait again
-				  Messenger.this.waitToSendNextHeartbeat();
+				  Messenger.this.waitToSendNextHeartbeat(false);
 			  }
-			}, getInterval()*1000);
+			}, getInterval(firstInstant)*1000);
 	}
 	
 	/**
 	 * Get a random number between 0 to 30
 	 * @return random int between 0 and 30
 	 */
-	private int getInterval () {
-		return ThreadLocalRandom.current().nextInt(0, 30);
+	private int getInterval (boolean instant) {
+		return instant ? 1 : ThreadLocalRandom.current().nextInt(0, 30);
 	}
 	
 	/**
