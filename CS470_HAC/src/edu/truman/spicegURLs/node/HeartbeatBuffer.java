@@ -35,7 +35,12 @@ public class HeartbeatBuffer {
 	 * @param upNode the IP address to add to upList
 	 */
 	public void addToUpList (InetAddress upNode) {
-		upList.add(upNode);
+		if(!downList.contains(upNode)){
+			upList.add(upNode);
+		}
+		else{
+			downList.remove(upNode);
+		}
 	}
 	
 	/**
@@ -43,7 +48,12 @@ public class HeartbeatBuffer {
 	 * @param downNode the IP address to add to downList
 	 */
 	public void addToDownList (InetAddress downNode) {
-		downList.add(downNode);
+		if(!upList.contains(downNode)){
+			downList.add(downNode);
+		}
+		else{
+			upList.remove(downNode);
+		}
 	}
 	
 	/**
