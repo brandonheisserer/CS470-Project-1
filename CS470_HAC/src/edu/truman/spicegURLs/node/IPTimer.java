@@ -12,7 +12,6 @@ import javax.swing.Timer;
  * IP from our list if a heart beat is not received for 30 seconds. A timeout
  * entails this object removing the IP from the up list, removing itself from
  * the favorites list, and killing itself.
- * @author cdy8858
  * @author Brandon Crane
  * @author Brandon Heisserer
  * @author Tanner Krewson
@@ -23,28 +22,27 @@ public class IPTimer extends Thread {
 	private Stack<InetAddress> receiver;
 	private InetAddress IP;
 	private Timer time;
-	private PeerList pr;
-	private ArrayList<IPTimer> list;
+	private PeerList peers;
+	private ArrayList<IPTimer> timers;
 	
 	/**
 	 * Creates an instance of the object IPTimer and initializes all local variables.
-	 * @param IPARG InetAddress of the IP you want to listen for
-	 * @param prarg a reference to the peerList so it can remove said IP on time out
-	 * @param listarg a reference to the list of timers you are storing this in so
+	 * @param newIP InetAddress of the IP you want to listen for
+	 * @param peers a reference to the peerList so it can remove said IP on time out
+	 * @param timers a reference to the list of timers you are storing this in so
 	 * on time out it can remove itself from said array list
 	 * @return IPTimer object
 	 */
-	public IPTimer(InetAddress IPARG, PeerList prarg, ArrayList<IPTimer> listarg){
-		super(IPARG.getHostAddress());
+	public IPTimer(InetAddress newIP, PeerList peers, ArrayList<IPTimer> timers){
+		super(newIP.getHostAddress());
 		receiver = new Stack<InetAddress>();
-		IP = IPARG;
-		list = listarg;
-		pr = prarg;
+		IP = newIP;
+		this.timers = timers;
+		this.peers = peers;
 		time = new Timer(30000, new ActionListener(){
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				// TODO Auto-generated method stub
 				timeout();
 			}
 			
@@ -57,7 +55,6 @@ public class IPTimer extends Thread {
 	 */
 	@Override
 	public void run() {
-		// TODO Auto-generated method stub
 		time.start();
 		while(true){
 			if(!receiver.isEmpty()){
@@ -98,8 +95,8 @@ public class IPTimer extends Thread {
 	 */
 	private void timeout(){
 		System.out.println("IPTimer: " + IP.getHostAddress() + " timed out, putting them on down list");
-		pr.dropPeer(IP);
-		list.remove(this);
+		peers.dropPeer(IP);
+		timers.remove(this);
 		time.stop();
 		this.interrupt();
 	}
