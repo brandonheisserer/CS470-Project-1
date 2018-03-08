@@ -47,7 +47,9 @@ public class IPTimer extends Thread {
 		while(true){
 			if(!receiver.isEmpty()){
 				if(receiver.peek().equals(IP)){
-					System.out.println(".....restarted their timer!");
+					if (Globals.verbose) {
+						System.out.println(".....restarted their timer!");
+					}
 					time.restart();
 				}
 				receiver.pop();
@@ -73,7 +75,9 @@ public class IPTimer extends Thread {
 	 * Calls when node times out, tells the peer list to drop the associated IP and kills the thread
 	 */
 	private void timeout(){
-		System.out.println("IPTimer: " + IP.getHostAddress() + " timed out, putting them on down list");
+		if (Globals.verbose) {
+			System.out.println("IPTimer: " + IP.getHostAddress() + " timed out, putting them on down list");
+		}
 		pr.dropPeer(IP);
 		list.remove(this);
 		time.stop();

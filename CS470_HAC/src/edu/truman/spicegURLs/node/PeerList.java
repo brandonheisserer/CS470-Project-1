@@ -3,7 +3,6 @@ package edu.truman.spicegURLs.node;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
-import java.util.logging.Logger;
 
 public class PeerList {
 
