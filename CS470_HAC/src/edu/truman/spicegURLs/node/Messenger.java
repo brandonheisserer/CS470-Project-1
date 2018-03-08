@@ -7,7 +7,7 @@ import java.util.concurrent.ThreadLocalRandom;
 
 import javax.sound.midi.Soundbank;
 
-public class Messenger {
+public class Messenger implements Runnable {
 
 	private DatagramSocket socket;
 	private Timer timer;
@@ -33,24 +33,26 @@ public class Messenger {
 		this.serverIP = serverIP;
 	}
 	
-	public void waitToSendNextHeartbeat () {
-		timer.schedule(new TimerTask() {
-			  @Override
-			  public void run() {
-				  // pull info from heartbeat buffer
-				  String packet = hbb.getPacket();
+	public void run () {
+		String packet = null;
+		while(true){
+			if(!hbb.isempty())
+			  packet = hbb.getPacket();
 				  
-				  // send data to all peers on list
-				  if(isServer){
-				  	Messenger.this.sendChangesToAll(packet);
-				  }
-				  else{
-					  Messenger.this.sendChangesToPeer(packet, serverIP);
-				  }
-				  // wait again
-				  Messenger.this.waitToSendNextHeartbeat();
-			  }
-			}, getInterval()*1000);
+				// send data to appropriate peers on list
+				if(isServer){
+					Messenger.this.sendChangesToAll(packet);
+				}
+				else{
+					Messenger.this.sendChangesToPeer(packet, serverIP);
+				}
+				try {
+					Thread.sleep(10);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
 	}
 	
 	private int getInterval () {

@@ -20,7 +20,7 @@ public class Main {
 			if (i == 1) {
 				try {
 					messenger = new Messenger(true, InetAddress.getLocalHost());
-					messenger.waitToSendNextHeartbeat();
+					messenger.run();
 					messenger.listener.join();
 				} catch (UnknownHostException | InterruptedException e1) {
 					// TODO Auto-generated catch block
@@ -42,7 +42,7 @@ public class Main {
 				System.out.println("IP " + ip + " entered, starting..." );
 				messenger = new Messenger(false,ip); // this also triggers the listener thread
 				messenger.addInitialPeer(ip);
-				messenger.waitToSendNextHeartbeat();
+				messenger.run();
 				try {
 					messenger.listener.join();
 				} catch (InterruptedException e) {

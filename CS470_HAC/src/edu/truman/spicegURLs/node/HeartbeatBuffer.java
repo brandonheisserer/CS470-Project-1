@@ -80,6 +80,10 @@ public class HeartbeatBuffer {
 		
 		return packet;
 	}
+	public boolean isempty(){
+		return upList.size() == 0 && downList.size() == 0;
+		
+	}
 	
 	/**
 	 * Removes everything from both upList and downList.
