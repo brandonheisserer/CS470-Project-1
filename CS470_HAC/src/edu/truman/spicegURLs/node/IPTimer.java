@@ -25,7 +25,7 @@ public class IPTimer extends Thread {
 		IP = IPARG;
 		list = listarg;
 		pr = prarg;
-		time = new Timer(7000, new ActionListener(){
+		time = new Timer(30000, new ActionListener(){
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
