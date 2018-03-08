@@ -1,8 +1,11 @@
 package edu.truman.spicegURLs.node;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.net.*;
 import java.util.*;
+import javax.swing.Timer;
 import java.util.concurrent.ThreadLocalRandom;
 
 import javax.sound.midi.Soundbank;
@@ -10,7 +13,7 @@ import javax.sound.midi.Soundbank;
 public class Messenger implements Runnable {
 
 	private DatagramSocket socket;
-	private Timer timer;
+	private Timer time;
 	
 	private PeerList pl;
 	private HeartbeatBuffer hbb;
@@ -29,8 +32,17 @@ public class Messenger implements Runnable {
 		pl = new PeerList(hbb);
 		listener = new Thread(new Listener(pl,this,isServer));
 		listener.start();
-		timer = new Timer();
 		this.serverIP = serverIP;
+		time = new Timer(getInterval()*1000, new ActionListener(){
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				// TODO Auto-generated method stub
+				String packet = hbb.getPacket();
+				Messenger.this.sendChangesToPeer(packet,serverIP);
+			}
+			
+		});
 	}
 	
 	public void run () {
@@ -54,6 +66,11 @@ public class Messenger implements Runnable {
 				}
 			}
 		}
+	}
+	public void clientHeartbeat(){
+		time.start();
+		time.setDelay(getInterval() *1000);
+		this.clientHeartbeat();
 	}
 	
 	private int getInterval () {

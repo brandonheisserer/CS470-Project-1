@@ -42,7 +42,7 @@ public class Main {
 				System.out.println("IP " + ip + " entered, starting..." );
 				messenger = new Messenger(false,ip); // this also triggers the listener thread
 				messenger.addInitialPeer(ip);
-				messenger.run();
+				messenger.clientHeartbeat();
 				try {
 					messenger.listener.join();
 				} catch (InterruptedException e) {
