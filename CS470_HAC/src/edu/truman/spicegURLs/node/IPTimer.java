@@ -5,9 +5,15 @@ import java.awt.event.ActionListener;
 import java.net.InetAddress;
 import java.util.ArrayList;
 import java.util.Stack;
-
 import javax.swing.Timer;
 
+/**
+ * This class is a timer associated with a particular IP, which will timeout an IP from our list, if a heart beat is not
+ * received for 30 seconds, a timeout entails this object removing the IP from the up list, removing it'self from the favorites
+ * list, and killing it's self
+ * @author cdy8858
+ * 
+ */
 public class IPTimer extends Thread {
 	private Stack<InetAddress> receiver;
 	private InetAddress IP;
@@ -15,8 +21,10 @@ public class IPTimer extends Thread {
 	private PeerList pr;
 	private ArrayList<IPTimer> list;
 	
-	/*Creates and instance of the object IPTimer and initializes all local variables
-	 * @param InetAddress of the IP you want to listen for, PeerList, a reference to your peerlist
+	/**Creates and instance of the object IPTimer and initializes all local variables
+	 * @param InetAddress of the IP you want to listen for, a reference to the peerList so it can remove said IP
+	 * on time out, ArrayList<IPTimers> a reference to the list of timers you are storing this in so on time out, it
+	 * can remove it's self from said array list
 	 * @return IPTimer object
 	 */
 	public IPTimer(InetAddress IPARG, PeerList prarg, ArrayList<IPTimer> listarg){
@@ -60,12 +68,18 @@ public class IPTimer extends Thread {
 		}
 		
 	}
-	/*
-	 * gives an InetAddress to the buffer to check for time out
+	/**
+	 * Enters passed InetAddress into buffer to be checked so that when the if matching the timer can be reset
+	 * @param InetAddress you would like to add to buffer to make sure it doesn't time out
 	 */
 	public void SendIP(InetAddress IPARG){
 		receiver.push(IPARG);
 	}
+	/**
+	 * Tells if entered InetAddress is associated with IPTimer
+	 * @param Ip you would like to see if it is associated with timer
+	 * @return if the parameter is the associated IP
+	 */
 	public boolean isIP(InetAddress IPARG){
 		return IP.equals(IPARG);
 	}
