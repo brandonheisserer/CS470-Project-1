@@ -40,6 +40,7 @@ public class Messenger implements Runnable {
 				// TODO Auto-generated method stub
 				String packet = hbb.getPacket();
 				Messenger.this.sendChangesToPeer(packet,serverIP);
+				Messenger.this.clientHeartbeat();
 			}
 			
 		});
@@ -72,7 +73,6 @@ public class Messenger implements Runnable {
 	}
 	public void clientHeartbeat(){
 		time.setDelay(getInterval() *1000);
-		this.clientHeartbeat();
 	}
 	
 	private int getInterval () {
