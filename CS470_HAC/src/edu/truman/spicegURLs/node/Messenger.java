@@ -67,8 +67,10 @@ public class Messenger implements Runnable {
 			}
 		}
 	}
-	public void clientHeartbeat(){
+	public void initClientHeartbeat(){
 		time.start();
+	}
+	public void clientHeartbeat(){
 		time.setDelay(getInterval() *1000);
 		this.clientHeartbeat();
 	}
