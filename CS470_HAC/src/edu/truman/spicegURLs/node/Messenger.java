@@ -102,8 +102,10 @@ public class Messenger implements Runnable {
 		String packet = ThreadLocalRandom.current().nextInt(10000, 99999) + ";";
 		String delim = "";
 		for (int i = 0; i < upList.size(); i++) {
-			packet += delim + upList.get(i).getHostAddress();
-			delim = ",";
+			if(!upList.get(i).equals(IP)){
+				packet += delim + upList.get(i).getHostAddress();
+				delim = ",";
+			}
 		}
 		packet += ";;";
 		
