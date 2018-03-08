@@ -44,7 +44,7 @@ public class Main {
 			
 			if (i == 1) {
 				messenger = new Messenger();
-				messenger.waitToSendNextHeartbeat();
+				messenger.waitToSendNextHeartbeat(true);
 				try {
 					messenger.listener.join();
 				} catch (InterruptedException e) {
@@ -65,7 +65,7 @@ public class Main {
 				System.out.println("IP " + ip + " entered, starting..." );
 				messenger = new Messenger();
 				messenger.addInitialPeer(ip);
-				messenger.waitToSendNextHeartbeat();
+				messenger.waitToSendNextHeartbeat(true);
 				try {
 					messenger.listener.join();
 				} catch (InterruptedException e) {
