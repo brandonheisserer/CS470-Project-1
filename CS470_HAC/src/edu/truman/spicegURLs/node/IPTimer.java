@@ -8,11 +8,16 @@ import java.util.Stack;
 import javax.swing.Timer;
 
 /**
- * This class is a timer associated with a particular IP, which will timeout an IP from our list, if a heart beat is not
- * received for 30 seconds, a timeout entails this object removing the IP from the up list, removing it'self from the favorites
- * list, and killing it's self
+ * This class is a timer associated with a particular IP which will timeout an
+ * IP from our list if a heart beat is not received for 30 seconds. A timeout
+ * entails this object removing the IP from the up list, removing itself from
+ * the favorites list, and killing itself.
  * @author cdy8858
- * 
+ * @author Brandon Crane
+ * @author Brandon Heisserer
+ * @author Tanner Krewson
+ * @author Carl Yarwood
+ * @version 7 March 2018
  */
 public class IPTimer extends Thread {
 	private Stack<InetAddress> receiver;
@@ -21,10 +26,12 @@ public class IPTimer extends Thread {
 	private PeerList pr;
 	private ArrayList<IPTimer> list;
 	
-	/**Creates and instance of the object IPTimer and initializes all local variables
-	 * @param InetAddress of the IP you want to listen for, a reference to the peerList so it can remove said IP
-	 * on time out, ArrayList<IPTimers> a reference to the list of timers you are storing this in so on time out, it
-	 * can remove it's self from said array list
+	/**
+	 * Creates an instance of the object IPTimer and initializes all local variables.
+	 * @param IPARG InetAddress of the IP you want to listen for
+	 * @param prarg a reference to the peerList so it can remove said IP on time out
+	 * @param listarg a reference to the list of timers you are storing this in so
+	 * on time out it can remove itself from said array list
 	 * @return IPTimer object
 	 */
 	public IPTimer(InetAddress IPARG, PeerList prarg, ArrayList<IPTimer> listarg){
@@ -44,7 +51,7 @@ public class IPTimer extends Thread {
 		});
 	}
 	
-	/*
+	/**
 	 * (non-Javadoc)
 	 * @see java.lang.Thread#run()
 	 */
@@ -68,6 +75,7 @@ public class IPTimer extends Thread {
 		}
 		
 	}
+	
 	/**
 	 * Enters passed InetAddress into buffer to be checked so that when the if matching the timer can be reset
 	 * @param InetAddress you would like to add to buffer to make sure it doesn't time out
@@ -75,6 +83,7 @@ public class IPTimer extends Thread {
 	public void SendIP(InetAddress IPARG){
 		receiver.push(IPARG);
 	}
+	
 	/**
 	 * Tells if entered InetAddress is associated with IPTimer
 	 * @param Ip you would like to see if it is associated with timer
@@ -83,6 +92,7 @@ public class IPTimer extends Thread {
 	public boolean isIP(InetAddress IPARG){
 		return IP.equals(IPARG);
 	}
+	
 	/*
 	 * Calls when node times out, tells the peer list to drop the associated IP and kills the thread
 	 */
@@ -93,5 +103,4 @@ public class IPTimer extends Thread {
 		time.stop();
 		this.interrupt();
 	}
-
 }
