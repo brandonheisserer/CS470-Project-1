@@ -5,8 +5,6 @@ import java.net.*;
 import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
 
-import javax.sound.midi.Soundbank;
-
 public class Messenger {
 
 	private DatagramSocket socket;
@@ -53,7 +51,9 @@ public class Messenger {
 	private void sendChangesToAll (String changes) {
 		ArrayList<InetAddress> peers = pl.getListOfAllPeers();
 		if (peers.size() > 0) {
-			System.out.println("Sending heartbeat: " + changes);
+			if (Globals.verbose) {
+				System.out.println("Sending heartbeat: " + changes);
+			}
 		}
 		for (InetAddress peerIP : peers) {
 			try {
@@ -61,8 +61,8 @@ public class Messenger {
 					this.sendChangesToPeer(changes, peerIP);
 				}
 			} catch (UnknownHostException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				System.err.println("Failed to get our own IP in Messenger, exiting...");
+				System.exit(1);
 			}
 		}
 
@@ -73,9 +73,11 @@ public class Messenger {
 		try {
 			DatagramPacket sendPacket = new DatagramPacket(data, data.length, peerIP, 8585);
 			socket.send(sendPacket);
-			System.out.println(".....to " + peerIP.getHostAddress());
+			if (Globals.verbose) {
+				System.out.println(".....to " + peerIP.getHostAddress());
+			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			System.err.println("Failed to send packet: " + data + ".....to IP: " + peerIP);
 		}
 	}
 	
@@ -96,16 +98,19 @@ public class Messenger {
 		}
 		packet += ";;";
 		
-		System.out.println("Sending full list heartbeat: " + packet);
+		if (Globals.verbose) {
+			System.out.println("Sending full list heartbeat: " + packet);
+		}
 		
 		sendMessage = packet.getBytes();
 		DatagramPacket sendPacket = new DatagramPacket(sendMessage, sendMessage.length, IP, 8585);
 		try {
 			socket.send(sendPacket);
-			System.out.println(".....to " + IP.getHostAddress());
+			if (Globals.verbose) {
+				System.out.println(".....to " + IP.getHostAddress());
+			}
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.err.println("Failed to send packet: " + packet + ".....to IP: " + IP);
 		}
 		
 	}

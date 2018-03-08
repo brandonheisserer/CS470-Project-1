@@ -97,18 +97,26 @@ public class Listener implements Runnable {
                 // make sure the sender is on our up list
                 pl.addPeer(ipOfSender);
                 
-                System.out.println("Received heartbeat: " + message);
-                System.out.println(".....from: " + ipOfSender.getHostAddress());
+                if (Globals.verbose) {
+                    System.out.println("Received heartbeat: " + message);
+                    System.out.println(".....from: " + ipOfSender.getHostAddress());
+                }
                 
                 // if this peer is not in our favorites, add a drop timer,
                 // and send them the full list
                 if(!isIPinOurFavorites(ipOfSender)){
-                	System.out.println(".....who is NOT on our favorites.");
+                	if (Globals.verbose) {
+                		System.out.println(".....who is NOT on our favorites.");
+                	}
                 	addIPTimer(ipOfSender);
                 	mess.sendListforJoin(ipOfSender);
-                	System.out.println(".....added a timer for them, and send them entire list.");
+                	if (Globals.verbose) {
+                		System.out.println(".....added a timer for them, and send them entire list.");
+                	}
                 } else {
-                	System.out.println(".....who is on our favorites.");
+                	if (Globals.verbose) {
+                		System.out.println(".....who is on our favorites.");
+                	}
                 }
                 
                 // adds the ip of sender to all favorites' stacks

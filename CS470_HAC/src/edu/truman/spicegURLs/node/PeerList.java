@@ -68,8 +68,7 @@ public class PeerList {
 	}
 	
 	public void printLists () {
-		System.out.println("\n---Begin status update " + printCounter++);
-		System.out.println("Current peer list:");
+		System.out.println("\n---Begin status update #" + printCounter);
 		System.out.println(upList.size() + " up list entries:");
 		for (InetAddress inetAddress : upList) {
 			System.out.println(inetAddress);
@@ -78,6 +77,7 @@ public class PeerList {
 		for (InetAddress inetAddress : downList) {
 			System.out.println(inetAddress);
 		}
-		System.out.println("---End status update\n");
+		System.out.println("---End status update #" + printCounter + "\n");
+		printCounter++;
 	}
 }
