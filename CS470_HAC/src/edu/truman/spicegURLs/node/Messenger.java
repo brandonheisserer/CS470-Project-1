@@ -8,8 +8,15 @@ import java.util.*;
 import javax.swing.Timer;
 import java.util.concurrent.ThreadLocalRandom;
 
-import javax.sound.midi.Soundbank;
 
+/**
+ * 
+ * @author Brandon Crane
+ * @author Brandon Heisserer
+ * @author Tanner Krewson
+ * @author Carl Yarwood
+ * @version 7 March 2018
+ */
 public class Messenger implements Runnable {
 
 	private DatagramSocket socket;
@@ -17,11 +24,11 @@ public class Messenger implements Runnable {
 	
 	private PeerList pl;
 	private HeartbeatBuffer hbb;
-	private boolean isServer;
+	private boolean isServer; // Specific to ClientServer
 	InetAddress serverIP;
 	public Thread listener;
 	
-	public Messenger(boolean isServer, InetAddress serverIP) {
+	public Messenger (boolean isServer, InetAddress serverIP) {
 		try {
 			socket = new DatagramSocket();
 		} catch (SocketException e) {
@@ -49,7 +56,7 @@ public class Messenger implements Runnable {
 	public void run () {
 		String packet = null;
 		while(true){
-			if(!hbb.isempty()){
+			if(!hbb.isEmpty()){
 			  packet = hbb.getPacket();
 				  
 				// send data to appropriate peers on list
