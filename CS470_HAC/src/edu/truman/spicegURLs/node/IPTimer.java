@@ -20,23 +20,23 @@ import javax.swing.Timer;
  */
 public class IPTimer extends Thread {
 	private Stack<InetAddress> receiver;
-	private InetAddress IP;
+	private InetAddress myAddress;
 	private Timer time;
 	private PeerList peers;
 	private ArrayList<IPTimer> timers;
 	
 	/**
 	 * Creates an instance of the object IPTimer and initializes all local variables.
-	 * @param newIP InetAddress of the IP you want to listen for
+	 * @param address InetAddress of the IP you want to listen for
 	 * @param peers a reference to the peerList so it can remove said IP on time out
 	 * @param timers a reference to the list of timers you are storing this in so
 	 * on time out it can remove itself from said array list
 	 * @return IPTimer object
 	 */
-	public IPTimer (InetAddress newIP, PeerList peers, ArrayList<IPTimer> timers){
-		super(newIP.getHostAddress());
+	public IPTimer (InetAddress address, PeerList peers, ArrayList<IPTimer> timers){
+		super(address.getHostAddress());
 		receiver = new Stack<InetAddress>();
-		IP = newIP;
+		myAddress = address;
 		this.timers = timers;
 		this.peers = peers;
 		
@@ -49,15 +49,15 @@ public class IPTimer extends Thread {
 	}
 	
 	/**
-	 * (non-Javadoc)
-	 * @see java.lang.Thread#run()
+	 * Overrides Thread's run method to check if the IP is heard.
+	 * If it is heard its timer is reset.
 	 */
 	@Override
 	public void run () {
 		time.start();
 		while (true) {
 			if (!receiver.isEmpty()) {
-				if (receiver.peek().equals(IP)) {
+				if (receiver.peek().equals(myAddress)) {
 					time.restart();
 					if (Globals.verbose) {
 						System.out.println(".....restarted their timer!");
@@ -75,29 +75,34 @@ public class IPTimer extends Thread {
 	}
 	
 	/**
-	 * Enters passed InetAddress into buffer to be checked so that when
-	 * the if matching the timer can be reset
-	 * @param InetAddress you would like to add to buffer to make sure it doesn't time out
+	 * Enters passed InetAddress into buffer to be checked if the IP
+	 * matching the timer can be reset. This is to make sure it does
+	 * not time-out.
+	 * @param IP the address to add to buffer
 	 */
-	public void SendIP(InetAddress IPARG){
-		receiver.push(IPARG);
+	public void sendIP (InetAddress address) {
+		receiver.push(address);
 	}
 	
 	/**
-	 * Tells if entered InetAddress is associated with IPTimer
-	 * @param Ip you would like to see if it is associated with timer
-	 * @return if the parameter is the associated IP
+	 * Tells if the InetAddress entered is associated with myAddress
+	 * @param address the IP to compare with myAddress
+	 * @return boolean describing if two addresses are the same
 	 */
-	public boolean isIP(InetAddress IPARG){
-		return IP.equals(IPARG);
+	public boolean isIP (InetAddress address) {
+		return this.myAddress.equals(address);
 	}
 	
-	/*
-	 * Calls when node times out, tells the peer list to drop the associated IP and kills the thread
+	/**
+	 * Tells the peer list to drop the associated IP and kills the thread.
+	 * To be called when node times out.
 	 */
-	private void timeout(){
-		System.out.println("IPTimer: " + IP.getHostAddress() + " timed out, putting them on down list");
-		peers.dropPeer(IP);
+	private void timeout () {
+		if (Globals.verbose) {
+			System.out.print("IPTimer: " + myAddress.getHostAddress());
+			System.out.println(" timed out, putting them on down list");
+		}
+		peers.dropPeer(myAddress);
 		timers.remove(this);
 		time.stop();
 		this.interrupt();

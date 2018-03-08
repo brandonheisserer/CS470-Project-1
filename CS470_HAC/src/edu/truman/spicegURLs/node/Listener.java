@@ -121,7 +121,7 @@ public class Listener implements Runnable {
                 
                 // adds the ip of sender to all favorites' stacks
                 for(int i = 0; i < favorites.size(); i++){
-                	favorites.get(i).SendIP(ipOfSender);
+                	favorites.get(i).sendIP(ipOfSender);
                 }
                 
                 // act upon the contents of the message
