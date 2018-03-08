@@ -2,7 +2,6 @@ package edu.truman.spicegURLs.node;
 
 import java.net.InetAddress;
 import java.util.ArrayList;
-import java.util.concurrent.ThreadLocalRandom;
 
 /**
  * Keeps track of changes to the up nodes and down nodes in the
@@ -14,7 +13,6 @@ import java.util.concurrent.ThreadLocalRandom;
  * @version 7 March 2018
  */
 public class HeartbeatBuffer {
-	
 	public static final String version = "1.0";
 	
 	private ArrayList<InetAddress> upList;
@@ -23,7 +21,7 @@ public class HeartbeatBuffer {
 	/**
 	 * Creates an instance of the object HeartbeatBuffer and initializes
 	 * all local variables.
-	 * @return HeartbeatBuffer object.
+	 * @return HeartbeatBuffer object
 	 */
 	public HeartbeatBuffer () {
 		upList = new ArrayList<>();
@@ -31,7 +29,9 @@ public class HeartbeatBuffer {
 	}
 	
 	/**
-	 * Adds the given address to the list of up nodes.
+	 * Adds the given address to the list of up nodes if it is 
+	 * not already in downlist. If it is already in downList then
+	 * it is removed.
 	 * @param upNode the IP address to add to upList
 	 */
 	public void addToUpList (InetAddress upNode) {
@@ -44,7 +44,9 @@ public class HeartbeatBuffer {
 	}
 	
 	/**
-	 * Adds the given address to the list of down nodes.
+	 * Adds the given address to the list of down nodes if it is 
+	 * not already in uplist. If it is already in upList then
+	 * it is removed.
 	 * @param downNode the IP address to add to downList
 	 */
 	public void addToDownList (InetAddress downNode) {
@@ -58,8 +60,8 @@ public class HeartbeatBuffer {
 	
 	/**
 	 * Creates and returns a string representation of packet including
-	 * the lists, version, and whether or not this is a join packet.
-	 * @return
+	 * the lists and version.
+	 * @return packet the string representation of the version and lists
 	 */
 	public String getPacket() {
 		String packet = version + ";";
@@ -76,8 +78,8 @@ public class HeartbeatBuffer {
 			delim = ",";
 		}
 		packet += ";";
-		emptyLists();
 		
+		emptyLists();
 		return packet;
 	}
 	

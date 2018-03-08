@@ -17,6 +17,8 @@ public class Main {
 	/**
 	 * Requires the first node to wait for others to join, whereas
 	 * joining nodes must enter the IP address of a connected node.
+	 * Will also change what messages appear to the usr based on the
+	 * user's preference.
 	 * @param args not used
 	 */
 	public static void main(String[] args) {
@@ -26,8 +28,10 @@ public class Main {
 		String debug = sc.nextLine();
 		if (debug.equals("Y") || debug.equals("y")) {
 			Globals.verbose = true;
+			System.out.println("Debug comments will be included.\n");
 		} else {
 			Globals.verbose = false;
+			System.out.println("Debug comments will be excluded.\n");
 		}
 		
 		while (true) {
