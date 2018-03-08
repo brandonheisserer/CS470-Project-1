@@ -26,6 +26,7 @@ public class Listener implements Runnable {
 		
 		if (!version.equals("1.0")) {
 			System.err.println("Received bad packet version: " + version);
+			return;
 		}
 		
 		if (upList.length == 1 && upList[0].isEmpty()) {
