@@ -11,9 +11,11 @@ public class Listener implements Runnable {
 	private Messenger mess;
 	private PeerList pl;
 	private ArrayList<IPTimer> favorites;
-	public Listener (PeerList pl, Messenger mess) {
+	private boolean isServer;
+	public Listener (PeerList pl, Messenger mess, boolean isServer) {
 		this.pl = pl;
 		this.mess = mess;
+		this.isServer = isServer;
 		favorites = new ArrayList<IPTimer>();
 	}
 	
@@ -57,7 +59,6 @@ public class Listener implements Runnable {
         try 
         {
             socket = new DatagramSocket(8585);
-
             while (true) 
             {
             	byte[] incomingData = new byte[1024];
@@ -75,14 +76,15 @@ public class Listener implements Runnable {
                 
                 System.out.println("Received heartbeat: " + message);
                 System.out.println(".....from: " + ipOfSender.getHostAddress());
-                
-                if(!isIPinOurFavorites(ipOfSender)){
-                	System.out.println(".....who is NOT on our favorites.");
-                	addIPTimer(ipOfSender);
-                	mess.sendListforJoin(ipOfSender);
-                	System.out.println(".....added a timer for them, and send them entire list.");
-                } else {
-                	System.out.println(".....who is on our favorites.");
+                if(isServer){
+	                if(!isIPinOurFavorites(ipOfSender)){
+	                	System.out.println(".....who is NOT on our favorites.");
+	                	addIPTimer(ipOfSender);
+	                	mess.sendListforJoin(ipOfSender);
+	                	System.out.println(".....added a timer for them, and send them entire list.");
+	                } else {
+	                	System.out.println(".....who is on our favorites.");
+	                }
                 }
                 
                 // adds the ip of sender to all favorites' stacks

@@ -11,21 +11,21 @@ public class Main {
 		System.out.println("Welcome to the Spice gUrls HAC!");
 		while (true) {
 			System.out.println("Enter a mode:");
-			System.out.println("1 - Inital Node");
-			System.out.println("2 - Connect to a node");
+			System.out.println("1 - Server");
+			System.out.println("2 - Client");
 			Scanner sc = new Scanner(System.in);
 			int i = sc.nextInt();
 			sc.nextLine();
 			Messenger messenger;
 			if (i == 1) {
-				messenger = new Messenger(); // this also triggers the listener thread
-				messenger.waitToSendNextHeartbeat();
 				try {
+					messenger = new Messenger(true, InetAddress.getLocalHost());
+					messenger.waitToSendNextHeartbeat();
 					messenger.listener.join();
-				} catch (InterruptedException e) {
+				} catch (UnknownHostException | InterruptedException e1) {
 					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+					e1.printStackTrace();
+				} // this also triggers the listener thread
 				break;
 			} else if (i == 2) {
 				InetAddress ip;
@@ -40,7 +40,7 @@ public class Main {
 					}
 				}
 				System.out.println("IP " + ip + " entered, starting..." );
-				messenger = new Messenger(); // this also triggers the listener thread
+				messenger = new Messenger(false,ip); // this also triggers the listener thread
 				messenger.addInitialPeer(ip);
 				messenger.waitToSendNextHeartbeat();
 				try {

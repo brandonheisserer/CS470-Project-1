@@ -14,19 +14,23 @@ public class Messenger {
 	
 	private PeerList pl;
 	private HeartbeatBuffer hbb;
+	private boolean isServer;
+	InetAddress serverIP;
 	public Thread listener;
 	
-	public Messenger() {
+	public Messenger(boolean isServer, InetAddress serverIP) {
 		try {
 			socket = new DatagramSocket();
 		} catch (SocketException e) {
 			e.printStackTrace();
 		}
+		this.isServer = isServer;
 		hbb = new HeartbeatBuffer();
 		pl = new PeerList(hbb);
-		listener = new Thread(new Listener(pl,this));
+		listener = new Thread(new Listener(pl,this,isServer));
 		listener.start();
 		timer = new Timer();
+		this.serverIP = serverIP;
 	}
 	
 	public void waitToSendNextHeartbeat () {
@@ -37,8 +41,12 @@ public class Messenger {
 				  String packet = hbb.getPacket();
 				  
 				  // send data to all peers on list
-				  Messenger.this.sendChangesToAll(packet);
-				  
+				  if(isServer){
+				  	Messenger.this.sendChangesToAll(packet);
+				  }
+				  else{
+					  Messenger.this.sendChangesToPeer(packet, serverIP);
+				  }
 				  // wait again
 				  Messenger.this.waitToSendNextHeartbeat();
 			  }
