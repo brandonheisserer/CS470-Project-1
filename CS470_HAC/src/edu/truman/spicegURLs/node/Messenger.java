@@ -47,8 +47,7 @@ public class Messenger {
 	
 	private int getInterval () {
 		// random number between 0 and 30
-		//return ThreadLocalRandom.current().nextInt(0, 31);
-		return 4;
+		return ThreadLocalRandom.current().nextInt(0, 30);
 	}
 	
 	private void sendChangesToAll (String changes) {
