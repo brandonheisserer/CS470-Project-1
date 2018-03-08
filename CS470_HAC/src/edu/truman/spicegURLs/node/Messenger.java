@@ -69,6 +69,8 @@ public class Messenger implements Runnable {
 		}
 	}
 	public void initClientHeartbeat(){
+		String packet = hbb.getPacket();
+		this.sendChangesToPeer(packet, serverIP);
 		time.start();
 	}
 	public void clientHeartbeat(){
