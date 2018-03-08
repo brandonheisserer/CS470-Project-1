@@ -33,19 +33,18 @@ public class IPTimer extends Thread {
 	 * on time out it can remove itself from said array list
 	 * @return IPTimer object
 	 */
-	public IPTimer(InetAddress newIP, PeerList peers, ArrayList<IPTimer> timers){
+	public IPTimer (InetAddress newIP, PeerList peers, ArrayList<IPTimer> timers){
 		super(newIP.getHostAddress());
 		receiver = new Stack<InetAddress>();
 		IP = newIP;
 		this.timers = timers;
 		this.peers = peers;
-		time = new Timer(30000, new ActionListener(){
-
+		
+		time = new Timer(30000, new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				timeout();
 			}
-			
 		});
 	}
 	
@@ -54,27 +53,30 @@ public class IPTimer extends Thread {
 	 * @see java.lang.Thread#run()
 	 */
 	@Override
-	public void run() {
+	public void run () {
 		time.start();
-		while(true){
-			if(!receiver.isEmpty()){
-				if(receiver.peek().equals(IP)){
-					System.out.println(".....restarted their timer!");
+		while (true) {
+			if (!receiver.isEmpty()) {
+				if (receiver.peek().equals(IP)) {
 					time.restart();
+					if (Globals.verbose) {
+						System.out.println(".....restarted their timer!");
+					}
 				}
 				receiver.pop();
 			}
-			try{
+			try {
 				Thread.sleep(10);
 			}
-			catch(Exception e){
+			catch(Exception e) {
 			}
 		}
 		
 	}
 	
 	/**
-	 * Enters passed InetAddress into buffer to be checked so that when the if matching the timer can be reset
+	 * Enters passed InetAddress into buffer to be checked so that when
+	 * the if matching the timer can be reset
 	 * @param InetAddress you would like to add to buffer to make sure it doesn't time out
 	 */
 	public void SendIP(InetAddress IPARG){
