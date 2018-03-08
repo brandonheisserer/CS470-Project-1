@@ -5,6 +5,15 @@ import java.net.*;
 import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
 
+/**
+ * Sends out heartbeats with all new changes to all peers 
+ * at given intervals. 
+ * @author Brandon Crane
+ * @author Brandon Heisserer
+ * @author Tanner Krewson
+ * @author Carl Yarwood
+ * @version 7 March 2018
+ */
 public class Messenger {
 
 	private DatagramSocket socket;
@@ -14,6 +23,11 @@ public class Messenger {
 	private HeartbeatBuffer hbb;
 	public Thread listener;
 	
+	/**
+	 * Creates an instance of the object Messenger and initializes
+	 * all local variables. It also starting the listener thread.
+	 * @return HeartbeatBuffer object
+	 */
 	public Messenger() {
 		try {
 			socket = new DatagramSocket();
@@ -27,6 +41,10 @@ public class Messenger {
 		timer = new Timer();
 	}
 	
+	/**
+	 * Grabs the latest changes and sends heartbeats to 
+	 * all peers at intervals.
+	 */
 	public void waitToSendNextHeartbeat () {
 		timer.schedule(new TimerTask() {
 			  @Override
@@ -43,11 +61,18 @@ public class Messenger {
 			}, getInterval()*1000);
 	}
 	
+	/**
+	 * Get a random number between 0 to 30
+	 * @return random int between 0 and 30
+	 */
 	private int getInterval () {
-		// random number between 0 and 30
 		return ThreadLocalRandom.current().nextInt(0, 30);
 	}
 	
+	/**
+	 * Sends the given packet to all peers
+	 * @param changes the packet to send
+	 */
 	private void sendChangesToAll (String changes) {
 		ArrayList<InetAddress> peers = pl.getListOfAllPeers();
 		if (peers.size() > 0) {
@@ -68,6 +93,12 @@ public class Messenger {
 
 	}
 	
+	/**
+	 * Sends the given packet to the peer at the given IP 
+	 * address
+	 * @param changes changes the packet to send
+	 * @param peerIP the ip address of the peer
+	 */
 	private void sendChangesToPeer (String changes, InetAddress peerIP) {
 		byte[] data = changes.getBytes();
 		try {
@@ -81,11 +112,19 @@ public class Messenger {
 		}
 	}
 	
+	/**
+	 * Adds the first peer to the peer list
+	 * @param firstPeerIP the ip address of the peer
+	 */
 	public void addInitialPeer (InetAddress firstPeerIP) {	
-		//add the first peer to peer list
 		pl.addPeer(firstPeerIP);
 	}
 	
+	/**
+	 * Sends a list of all up peers to the peer at the 
+	 * given ip address
+	 * @param IP
+	 */
 	public void sendListforJoin(InetAddress IP){
 		ArrayList<InetAddress> upList = pl.getUpPeerList();
 		byte[] sendMessage;
@@ -110,7 +149,7 @@ public class Messenger {
 				System.out.println(".....to " + IP.getHostAddress());
 			}
 		} catch (IOException e) {
-			System.err.println("Failed to send packet: " + packet + ".....to IP: " + IP);
+			System.err.println("Failed to send packet: " + packet + "\n.....to IP: " + IP);
 		}
 		
 	}
