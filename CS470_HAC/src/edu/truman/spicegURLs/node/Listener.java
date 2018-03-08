@@ -131,14 +131,20 @@ public class Listener implements Runnable {
     }
 	
 	/**
-	 * 
+	 * Sets a timer to make sure the given IP is still alive
 	 * @param IP
 	 */
 	private void addIPTimer(InetAddress IP){
-		IPTimer butts = new IPTimer(IP,pl,favorites);
-		favorites.add(butts);
-		butts.start();
+		IPTimer timer = new IPTimer(IP,pl,favorites);
+		favorites.add(timer);
+		timer.start();
 	}
+	
+	/**
+	 * Checks to see if the given IP is in the list of favorites
+	 * @param IPARG any ip address
+	 * @return true if the ip is in favorites
+	 */
 	private boolean isIPinOurFavorites(InetAddress IPARG){
 		for(int i = 0; i<favorites.size();i++){
 			if(favorites.get(i).isIP(IPARG)){
