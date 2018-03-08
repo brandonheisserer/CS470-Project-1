@@ -40,9 +40,14 @@ public class Listener implements Runnable {
 	 */
 	public void parsePacket (String message) {
 		String[] packet = message.split(";");
-		//String version = packet[0];
+		String version = packet[0];
 		String[] upList = packet[1].split(",");
 		String[] downList = packet[2].split(",");
+		
+		if (!version.equals("1.0")) {
+			System.err.println("Received bad packet version: " + version);
+			return;
+		}
 		
 		if (upList.length == 1 && upList[0].isEmpty()) {
 			upList = new String[0];
