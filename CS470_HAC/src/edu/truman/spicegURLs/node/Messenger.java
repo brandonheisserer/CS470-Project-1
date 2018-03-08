@@ -36,7 +36,7 @@ public class Messenger implements Runnable {
 	public void run () {
 		String packet = null;
 		while(true){
-			if(!hbb.isempty())
+			if(!hbb.isempty()){
 			  packet = hbb.getPacket();
 				  
 				// send data to appropriate peers on list
@@ -53,6 +53,7 @@ public class Messenger implements Runnable {
 					e.printStackTrace();
 				}
 			}
+		}
 	}
 	
 	private int getInterval () {
