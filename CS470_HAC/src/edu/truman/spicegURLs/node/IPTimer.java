@@ -8,6 +8,19 @@ import java.util.Stack;
 
 import javax.swing.Timer;
 
+/**
+ * This class is a timer which is associated with a particular IP which
+ * will time out an IP from our list if a heartbeat is not received for
+ * 30 seconds. A timeout entails this object removing the IP from the up
+ * list, removing itself from the favorites list and killing itself.
+ * Further documentation can be found in the P2P version, to which this
+ * is nearly identical.
+ * @author Brandon Crane
+ * @author Brandon Heisserer
+ * @author Tanner Krewson
+ * @author Carl Yarwood
+ * @version 7 March 2018
+ */
 public class IPTimer extends Thread {
 	private Stack<InetAddress> receiver;
 	private InetAddress IP;
@@ -15,11 +28,7 @@ public class IPTimer extends Thread {
 	private PeerList pr;
 	private ArrayList<IPTimer> list;
 	
-	/*Creates and instance of the object IPTimer and initializes all local variables
-	 * @param InetAddress of the IP you want to listen for, PeerList, a reference to your peerlist
-	 * @return IPTimer object
-	 */
-	public IPTimer(InetAddress IPARG, PeerList prarg, ArrayList<IPTimer> listarg){
+	public IPTimer (InetAddress IPARG, PeerList prarg, ArrayList<IPTimer> listarg) {
 		super(IPARG.getHostAddress());
 		receiver = new Stack<InetAddress>();
 		IP = IPARG;
@@ -33,14 +42,10 @@ public class IPTimer extends Thread {
 		});
 	}
 	
-	/*
-	 * (non-Javadoc)
-	 * @see java.lang.Thread#run()
-	 */
 	@Override
 	public void run() {
 		time.start();
-		while(true){
+		while (true) {
 			if(!receiver.isEmpty()){
 				if(receiver.peek().equals(IP)){
 					if (Globals.verbose) {
@@ -58,21 +63,15 @@ public class IPTimer extends Thread {
 		}
 	}
 	
-	/*
-	 * gives an InetAddress to the buffer to check for time out
-	 */
-	public void SendIP(InetAddress IPARG){
+	public void SendIP (InetAddress IPARG) {
 		receiver.push(IPARG);
 	}
 	
-	public boolean isIP(InetAddress IPARG){
+	public boolean isIP (InetAddress IPARG) {
 		return IP.equals(IPARG);
 	}
 	
-	/*
-	 * Calls when node times out, tells the peer list to drop the associated IP and kills the thread
-	 */
-	private void timeout(){
+	private void timeout() {
 		if (Globals.verbose) {
 			System.out.println("IPTimer: " + IP.getHostAddress() + " timed out, putting them on down list");
 		}

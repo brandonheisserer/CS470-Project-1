@@ -4,6 +4,16 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 
+/**
+ * Keeps a list of all peers that are currently alive and another
+ * list of the peers that are down. Further documentation can
+ * be found in the P2P version, to which this is nearly identical.
+ * @author Brandon Crane
+ * @author Brandon Heisserer
+ * @author Tanner Krewson
+ * @author Carl Yarwood
+ * @version 7 March 2018
+ */
 public class PeerList {
 
 	private HeartbeatBuffer hbb;

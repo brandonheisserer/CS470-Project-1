@@ -4,6 +4,16 @@ import java.io.IOException;
 import java.net.*;
 import java.util.ArrayList;
 
+/**
+ * Waits to revceive heartbeats from any other peers. Further
+ * documentation can be found in the P2P version, to which
+ * this is nearly identical.
+ * @author Brandon Crane
+ * @author Brandon Heisserer
+ * @author Tanner Krewson
+ * @author Carl Yarwood
+ * @version 7 March 2018
+ */
 public class Listener implements Runnable {
 
 	DatagramSocket socket = null;
@@ -11,6 +21,7 @@ public class Listener implements Runnable {
 	private PeerList pl;
 	private ArrayList<IPTimer> favorites;
 	private boolean isServer;
+	
 	public Listener (PeerList pl, Messenger mess, boolean isServer) {
 		this.pl = pl;
 		this.mess = mess;
@@ -83,6 +94,8 @@ public class Listener implements Runnable {
                 	System.out.println(".....from: " + ipOfSender.getHostAddress());
                 }
                 
+                /* The following if-statement is specific to ClientServer and its
+                 * function is ensure only the server can time clients out. */
                 if(isServer){
 	                if(!isIPinOurFavorites(ipOfSender)){
 	                	if (Globals.verbose) {
@@ -101,7 +114,7 @@ public class Listener implements Runnable {
                 }
                 
                 // adds the ip of sender to all favorites' stacks
-                for(int i = 0; i < favorites.size(); i++){
+                for (int i = 0; i < favorites.size(); i++) {
                 	favorites.get(i).SendIP(ipOfSender);
                 }
                 
@@ -118,14 +131,16 @@ public class Listener implements Runnable {
             i.printStackTrace();
         }
     }
+	
 	private void addIPTimer(InetAddress IP){
 		IPTimer timer = new IPTimer(IP,pl,favorites);
 		favorites.add(timer);
 		timer.start();
 	}
+	
 	private boolean isIPinOurFavorites(InetAddress IPARG){
-		for(int i = 0; i<favorites.size();i++){
-			if(favorites.get(i).isIP(IPARG)){
+		for (int i = 0; i<favorites.size();i++) {
+			if (favorites.get(i).isIP(IPARG)) {
 				return true;
 			}
 		}

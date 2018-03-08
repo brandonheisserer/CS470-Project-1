@@ -5,6 +5,15 @@ import java.net.UnknownHostException;
 import java.util.Scanner;
 import edu.truman.spicegURLs.node.*;
 
+/**
+ * Serves to get the system started. Further documentation can
+ * be found in the P2P version, to which this is nearly identical.
+ * @author Brandon Crane
+ * @author Brandon Heisserer
+ * @author Tanner Krewson
+ * @author Carl Yarwood
+ * @version 7 March 2018
+ */
 public class Main {
 
 	public static void main(String[] args) {
@@ -21,9 +30,9 @@ public class Main {
 		}
 		
 		while (true) {
-			System.out.println("Enter a mode:");
 			System.out.println("1 - Server");
 			System.out.println("2 - Client");
+			System.out.println("Enter a mode:");
 			int i = sc.nextInt();
 			sc.nextLine();
 			Messenger messenger;
@@ -33,9 +42,8 @@ public class Main {
 					messenger.run();
 					messenger.listener.join();
 				} catch (UnknownHostException | InterruptedException e1) {
-					// TODO Auto-generated catch block
 					e1.printStackTrace();
-				} // this also triggers the listener thread
+				}
 				break;
 			} else if (i == 2) {
 				InetAddress ip;
@@ -45,26 +53,21 @@ public class Main {
 						ip = InetAddress.getByName(sc.nextLine());
 						break;
 					} catch (UnknownHostException e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 				}
 				System.out.println("IP " + ip + " entered, starting..." );
-				messenger = new Messenger(false,ip); // this also triggers the listener thread
+				messenger = new Messenger(false,ip);
 				messenger.addInitialPeer(ip);
 				messenger.initClientHeartbeat();
 				messenger.clientHeartbeat();
 				try {
 					messenger.listener.join();
 				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 				break;
 			}
-
 		}
-		System.out.println("End of main");
 	}
-
 }
