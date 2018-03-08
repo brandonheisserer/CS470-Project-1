@@ -11,7 +11,7 @@ import java.util.concurrent.ThreadLocalRandom;
  * @author Brandon Heisserer
  * @author Tanner Krewson
  * @author Carl Yarwood
- * @version 6 March 2018
+ * @version 7 March 2018
  */
 public class HeartbeatBuffer {
 	
@@ -62,7 +62,7 @@ public class HeartbeatBuffer {
 	 * @return
 	 */
 	public String getPacket() {
-		String packet = ThreadLocalRandom.current().nextInt(10000, 99999) + ";";
+		String packet = version + ";";
 		String delim = "";
 		for (int i = 0; i < upList.size(); i++) {
 			packet += delim + upList.get(i).getHostAddress();

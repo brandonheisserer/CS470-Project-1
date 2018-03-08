@@ -5,25 +5,45 @@ import java.net.UnknownHostException;
 import java.util.Scanner;
 import edu.truman.spicegURLs.node.*;
 
+/**
+ * Serves to get the system started.
+ * @author Brandon Crane
+ * @author Brandon Heisserer
+ * @author Tanner Krewson
+ * @author Carl Yarwood
+ * @version 7 March 2018
+ */
 public class Main {
-
+	/**
+	 * Requires the first node to wait for others to join, whereas
+	 * joining nodes must enter the IP address of a connected node.
+	 * @param args not used
+	 */
 	public static void main(String[] args) {
+		Scanner sc = new Scanner(System.in);
 		System.out.println("Welcome to the Spice gUrls HAC!");
+		System.out.println("Would you like debug comments? (Y/N): ");
+		String debug = sc.nextLine();
+		if (debug.equals("Y") || debug.equals("y")) {
+			Globals.verbose = true;
+		} else {
+			Globals.verbose = false;
+		}
+		
 		while (true) {
-			System.out.println("Enter a mode:");
 			System.out.println("1 - Inital Node");
 			System.out.println("2 - Connect to a node");
-			Scanner sc = new Scanner(System.in);
+			System.out.println("Enter a mode:");
 			int i = sc.nextInt();
 			sc.nextLine();
 			Messenger messenger;
+			
 			if (i == 1) {
-				messenger = new Messenger(); // this also triggers the listener thread
+				messenger = new Messenger();
 				messenger.waitToSendNextHeartbeat();
 				try {
 					messenger.listener.join();
 				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 				break;
@@ -35,25 +55,20 @@ public class Main {
 						ip = InetAddress.getByName(sc.nextLine());
 						break;
 					} catch (UnknownHostException e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 				}
 				System.out.println("IP " + ip + " entered, starting..." );
-				messenger = new Messenger(); // this also triggers the listener thread
+				messenger = new Messenger();
 				messenger.addInitialPeer(ip);
 				messenger.waitToSendNextHeartbeat();
 				try {
 					messenger.listener.join();
 				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 				break;
 			}
-
 		}
-		System.out.println("End of main");
 	}
-
 }
