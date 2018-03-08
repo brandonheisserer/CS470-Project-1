@@ -3,7 +3,6 @@ package edu.truman.spicegURLs.node;
 import java.io.IOException;
 import java.net.*;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class Listener implements Runnable {
 
@@ -21,9 +20,13 @@ public class Listener implements Runnable {
 	
 	public void parsePacket (String message) {
 		String[] packet = message.split(";");
-		//String version = packet[0];
+		String version = packet[0];
 		String[] upList = packet[1].split(",");
 		String[] downList = packet[2].split(",");
+		
+		if (!version.equals("1.0")) {
+			System.err.println("Received bad packet version: " + version);
+		}
 		
 		if (upList.length == 1 && upList[0].isEmpty()) {
 			upList = new String[0];
@@ -74,16 +77,25 @@ public class Listener implements Runnable {
                 // make sure the sender is on our up list
                 pl.addPeer(ipOfSender);
                 
-                System.out.println("Received heartbeat: " + message);
-                System.out.println(".....from: " + ipOfSender.getHostAddress());
+                if (Globals.verbose) {
+                	System.out.println("Received heartbeat: " + message);
+                	System.out.println(".....from: " + ipOfSender.getHostAddress());
+                }
+                
                 if(isServer){
 	                if(!isIPinOurFavorites(ipOfSender)){
-	                	System.out.println(".....who is NOT on our favorites.");
+	                	if (Globals.verbose) {
+	                		System.out.println(".....who is NOT on our favorites.");
+	                	}
 	                	addIPTimer(ipOfSender);
 	                	mess.sendListforJoin(ipOfSender);
-	                	System.out.println(".....added a timer for them, and send them entire list.");
+	                	if (Globals.verbose) {
+	                		System.out.println(".....added a timer for them, and send them entire list.");
+	                	}
 	                } else {
-	                	System.out.println(".....who is on our favorites.");
+	                	if (Globals.verbose) {
+	                		System.out.println(".....who is on our favorites.");
+	                	}
 	                }
                 }
                 
